@@ -27,3 +27,6 @@ junit.xml
 /.playwright
 
 .fallow/
+
+# --- Vitest blob reports (CI merges them into one coverage report) ---
+.vitest-reports
