@@ -72,7 +72,7 @@ const titleId = useId()
   min-inline-size: 0;
   margin: 0;
   font-family: var(--font-family-display);
-  font-size: var(--font-size-sm);
+  font-size: var(--font-size-md);
   font-weight: var(--font-weight-bold);
   line-height: var(--line-height-normal);
   overflow-wrap: break-word;
@@ -89,7 +89,7 @@ const titleId = useId()
 
 .trusty-card-description {
   margin: 0;
-  font-size: var(--font-size-xs);
+  font-size: var(--font-size-sm);
   font-weight: var(--font-weight-normal);
   line-height: var(--line-height-normal);
   color: var(--color-text-muted);

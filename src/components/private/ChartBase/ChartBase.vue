@@ -259,7 +259,7 @@ function swatch(item: ChartLegendItem) {
   margin: 0;
   overflow: hidden;
   font-family: var(--font-family-display);
-  font-size: var(--font-size-xl);
+  font-size: var(--font-size-md);
   font-weight: var(--font-weight-bold);
   line-height: var(--line-height-normal);
   text-overflow: ellipsis;
@@ -270,7 +270,6 @@ function swatch(item: ChartLegendItem) {
   margin: 0;
   overflow: hidden;
   font-size: var(--font-size-sm);
-  font-weight: var(--font-weight-semibold);
   line-height: var(--line-height-normal);
   color: var(--color-text-muted);
   text-overflow: ellipsis;

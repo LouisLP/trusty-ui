@@ -167,7 +167,7 @@ const open = defineModel<boolean>({ default: false })
 .trusty-alert-dialog-description {
   padding-block-start: var(--space-xs);
   margin: 0;
-  font-size: var(--font-size-xs);
+  font-size: var(--font-size-sm);
   line-height: var(--line-height-normal);
   color: var(--color-text-muted);
 }

@@ -149,7 +149,7 @@
   --font-family-display: 'Bricolage Grotesque Variable', system-ui, sans-serif;
 
   /* everything else: body text and controls */
-  --font-family-sans: 'Inter Variable', system-ui, sans-serif;
+  --font-family-sans: 'Instrument Sans Variable', system-ui, sans-serif;
 
   /* code, and only code — pair it with `font-variant-ligatures: none` */
   --font-family-mono: 'JetBrains Mono Variable', ui-monospace, 'SF Mono', 'Cascadia Code', monospace;
@@ -177,7 +177,7 @@
   --line-height-snug: 1.2;
   --line-height-normal: 1.4;
 
-  /* letter spacing. Inter is already tracked for UI sizes, so mixed-case text takes none; wide and wider are for runs of capitals (key caps, hex digits, a short uppercase title) */
+  /* letter spacing. The sans face is spaced for text already, so mixed-case text takes none; wide and wider are for runs of capitals (key caps, hex digits, a short uppercase title) */
   --letter-spacing-tight: -0.01em;
   --letter-spacing-normal: 0;
   --letter-spacing-wide: 0.03em;

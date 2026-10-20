@@ -139,7 +139,7 @@ const model = defineModel<T>()
   padding-block: var(--trusty-tabs-pad-block);
   padding-inline: var(--trusty-tabs-pad-inline);
   font-family: var(--font-family-sans);
-  font-size: var(--font-size-xs);
+  font-size: var(--font-size-sm);
   font-weight: var(--font-weight-bold);
   color: var(--color-text-muted);
   white-space: nowrap;
@@ -159,7 +159,6 @@ const model = defineModel<T>()
   --trusty-tabs-pad-block: var(--space-sm);
 
   min-block-size: var(--size-control-lg);
-  font-size: var(--font-size-sm);
 }
 
 .trusty-tabs[data-size='xl'] .trusty-tabs-trigger {

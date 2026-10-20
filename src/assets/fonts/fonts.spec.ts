@@ -31,13 +31,13 @@ describe('font loading', () => {
   })
 
   it('loads italics for the body and code faces, which the markdown editor and code comments use', () => {
-    expect(imports).toContain('@fontsource-variable/inter/wght-italic.css')
+    expect(imports).toContain('@fontsource-variable/instrument-sans/wght-italic.css')
     expect(imports).toContain('@fontsource-variable/jetbrains-mono/wght-italic.css')
   })
 
   it.each([
     ['--font-family-display', 'Bricolage Grotesque Variable'],
-    ['--font-family-sans', 'Inter Variable'],
+    ['--font-family-sans', 'Instrument Sans Variable'],
     ['--font-family-mono', 'JetBrains Mono Variable'],
   ])('%s leads with %s, a family fonts.css loads', (token, family) => {
     expect(leadingFamily(token)).toBe(family)

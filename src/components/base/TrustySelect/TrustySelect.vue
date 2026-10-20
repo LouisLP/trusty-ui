@@ -199,7 +199,8 @@ const selectedIcon = computed(() => props.items.find(item => item.value === mode
 .trusty-select-value {
   flex: 1;
   min-inline-size: 0;
-  overflow: hidden;
+  /* clip the inline axis only: the ellipsis still works, and descenders that hang below a tight line box (line-height 1 on the button) are not cut off */
+  overflow-x: clip;
   text-overflow: ellipsis;
   text-align: start;
   white-space: nowrap;
