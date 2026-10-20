@@ -16,6 +16,10 @@ concurrency:
 permissions:
   contents: read
 
+# The `main` ruleset requires lint, type-check, icons-generated,
+# context-generated, every `test (…)` leg and build by name. Renaming a job or
+# a matrix leg leaves pull requests waiting on a check that never reports:
+# change the ruleset in the same breath.
 jobs:
   lint:
     runs-on: ubuntu-latest
