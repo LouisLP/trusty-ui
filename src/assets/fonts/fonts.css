@@ -5,13 +5,13 @@
    Each family is a Fontsource variable package, a dependency of this one: one woff2 per style covers every weight, Fontsource splits it into unicode-range subsets so a page downloads only the scripts it renders, and the OFL licence ships inside the package. `font-display: swap` is Fontsource's default.
 
    - Bricolage Grotesque — headings only (--font-family-display). No italic exists, so nothing should italicise a heading.
-   - Inter — body text and controls (--font-family-sans), upright and italic.
+   - Instrument Sans — body text and controls (--font-family-sans), upright and italic.
    - JetBrains Mono — code (--font-family-mono), upright and italic. Its programming ligatures (`=>`, `!==`) are switched off wherever the token is used.
 
    Don't reference these family names directly — go through the --font-family-* tokens in src/styles/tokens/semantic.css. */
 
 @import '@fontsource-variable/bricolage-grotesque/wght.css';
-@import '@fontsource-variable/inter/wght.css';
-@import '@fontsource-variable/inter/wght-italic.css';
+@import '@fontsource-variable/instrument-sans/wght.css';
+@import '@fontsource-variable/instrument-sans/wght-italic.css';
 @import '@fontsource-variable/jetbrains-mono/wght.css';
 @import '@fontsource-variable/jetbrains-mono/wght-italic.css';

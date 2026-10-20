@@ -33,7 +33,7 @@ const glyphs = computed(() => props.keys.map(key => keyGlyph(key)))
   font-family: var(--font-family-sans);
 }
 
-/* A key cap: fixed height, hugs wider text labels, and a thicker bottom border for the key-cap relief. Inter's Fontsource subsets carry no ⇧ or ⇪; the sans-serif fallback chain covers them. */
+/* A key cap: fixed height, hugs wider text labels, and a thicker bottom border for the key-cap relief. Instrument Sans's Fontsource subsets carry no ⇧ or ⇪; the sans-serif fallback chain covers them. */
 .trusty-keyboard-badge-key {
   display: inline-flex;
   align-items: center;

@@ -49,7 +49,7 @@ const model = defineModel<boolean>({ default: false })
   block-size: var(--size-control-md);
   padding-inline: var(--space-sm);
   font-family: var(--font-family-sans);
-  font-size: var(--font-size-xs);
+  font-size: var(--font-size-sm);
   font-weight: var(--font-weight-bold);
   color: var(--color-text);
   white-space: nowrap;

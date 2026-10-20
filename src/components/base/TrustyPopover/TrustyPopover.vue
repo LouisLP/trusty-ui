@@ -120,6 +120,7 @@ const SIDE_OFFSET_PX = 6
 
 .trusty-popover-title {
   margin: 0;
+  font-family: var(--font-family-display);
   font-size: var(--font-size-sm);
   font-weight: var(--font-weight-bold);
   line-height: var(--line-height-normal);

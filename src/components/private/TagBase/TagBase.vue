@@ -125,7 +125,8 @@ const emit = defineEmits<{ click: [event: MouseEvent] }>()
 }
 
 .tag-base-label {
-  overflow: hidden;
+  /* clip the inline axis only: the ellipsis still works, and descenders that hang below a tight line box (line-height 1 on the button) are not cut off */
+  overflow-x: clip;
   text-overflow: ellipsis;
   white-space: nowrap;
 }

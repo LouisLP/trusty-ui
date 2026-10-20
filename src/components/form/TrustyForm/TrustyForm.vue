@@ -99,6 +99,7 @@ function onSubmit(event: Event) {
 
 .trusty-form-summary-title {
   margin: 0;
+  font-family: var(--font-family-display);
   font-size: var(--font-size-sm);
   font-weight: var(--font-weight-bold);
 }

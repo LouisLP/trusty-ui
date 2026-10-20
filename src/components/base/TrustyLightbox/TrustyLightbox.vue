@@ -91,7 +91,7 @@ const open = defineModel<boolean>({ default: false })
   margin: 0;
   font-family: var(--font-family-display);
   font-size: var(--font-size-md);
-  font-weight: bold;
+  font-weight: var(--font-weight-bold);
   line-height: var(--line-height-snug);
   color: var(--color-text);
   text-align: center;

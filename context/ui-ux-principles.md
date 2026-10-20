@@ -64,14 +64,14 @@ Three faces, each through its token, all OFL and bundled through Fontsource by
 | Token | Face | For |
 | --- | --- | --- |
 | `--font-family-display` | Bricolage Grotesque | headings and titles, nothing else |
-| `--font-family-sans` | Inter | body text, labels, controls (everything that isn't a heading or code) |
+| `--font-family-sans` | Instrument Sans | body text, labels, controls (everything that isn't a heading or code) |
 | `--font-family-mono` | JetBrains Mono | code, and only code |
 
 `base.css` already puts the display face on `h1`–`h6`, and the components put it
 on their own titles (card, dialog, chart), so a screen reaches for the token only
 for a title that isn't a heading element. The display face has no italic: never
 italicize a heading. Set `font-variant-ligatures: none` beside the mono token so
-`=>` stays two characters. Never name a face directly; a `font-family: Inter`
+`=>` stays two characters. Never name a face directly; a `font-family: 'Instrument Sans'`
 pins the screen to today's choice.
 
 Sizes are named by **step**, not by pixel: `--font-size-2xs` 10 · `-xs` 12 ·
@@ -81,17 +81,23 @@ larger steps for display use). `--font-size-sm` (14px) is the body default, set 
 
 Weights: `--font-weight-normal` (400), `--font-weight-semibold` (600),
 `--font-weight-bold` (700). Line height is `--line-height-normal` (1.4) unless a
-heading needs `-snug` (1.2). Mixed-case text takes no letter-spacing: Inter is
-already tracked for UI sizes, and `wide`/`wider` on it reads loose.
+heading needs `-snug` (1.2). Mixed-case text takes no letter-spacing: the sans face is
+already spaced for text, and `wide`/`wider` on it reads loose.
 
 **Which style for what**
+
+The four title rows take `--font-family-display` too: a title that isn't a
+heading element doesn't get it from `base.css`.
 
 | Role | Tokens |
 | --- | --- |
 | Page title | `--font-size-xl` + `--font-weight-bold` |
-| Section heading | `--font-size-lg` + `--font-weight-bold` |
-| Sub-heading, card and small-section title | `--font-size-sm` + `--font-weight-semibold` |
+| Section heading, dialog title | `--font-size-lg` + `--font-weight-bold` |
+| Card, panel and chart title | `--font-size-md` + `--font-weight-bold` |
+| Compact title: alert, toast, popover, hover card, a small section | `--font-size-sm` + `--font-weight-bold` |
+| Description under a title | `--color-text-muted`, `--font-size-sm`; `--font-size-xs` under a compact title |
 | Body text | nothing: it inherits `--font-size-sm` + `--font-weight-normal` |
+| Control label (button, tab, toggle) | `--font-size-sm`; `--font-size-xs` on a `sm` control |
 | Title over a group (button row, list) | `--font-size-xs` + `--font-weight-semibold` + `--letter-spacing-widest` + `text-transform: uppercase` |
 | In-text link | a plain `<a>`: `base.css` styles it |
 | Inline, preview or editor code | `--font-size-sm` + `--font-family-mono` |
