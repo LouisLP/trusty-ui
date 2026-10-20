@@ -161,13 +161,13 @@ const isIconOnly = computed(() =>
 
 /* ── variants: paint the channels (resting + per-state targets) ── */
 .trusty-button[data-variant='primary'] {
-  --trusty-button-fg: var(--color-on-primary);
-  --trusty-button-fg-hover: var(--color-on-primary);
-  --trusty-button-fg-active: var(--color-on-primary);
+  --trusty-button-fg: var(--color-on-primary-surface);
+  --trusty-button-fg-hover: var(--color-on-primary-surface-hover);
+  --trusty-button-fg-active: var(--color-on-primary-surface);
   --trusty-button-fg-disabled: var(--color-text-muted);
-  --trusty-button-bg: var(--color-primary);
-  --trusty-button-bg-hover: var(--color-primary-hover);
-  --trusty-button-bg-active: var(--color-primary-active);
+  --trusty-button-bg: var(--color-primary-surface);
+  --trusty-button-bg-hover: var(--color-primary-surface-hover);
+  --trusty-button-bg-active: var(--color-primary-surface-active);
   --trusty-button-bg-disabled: var(--color-primary-disabled);
 }
 

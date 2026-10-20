@@ -70,6 +70,13 @@
     rgb(from var(--cc-on-accent) calc(255 - r) calc(255 - g) calc(255 - b))
   );
 
+  /* The primary button's fill: a deep tone of the accent with a light tone of it on top, so the main action keeps the accent's hue without a slab of bright orange. Hover lightens the fill and the label together; press darkens the fill. Each label step clears 4.5:1 on its fill for combo 2. */
+  --color-primary-surface: var(--cc-accent-700);
+  --color-primary-surface-hover: var(--cc-accent-600);
+  --color-primary-surface-active: var(--cc-accent-800);
+  --color-on-primary-surface: var(--cc-accent-200);
+  --color-on-primary-surface-hover: var(--cc-accent-100);
+
   /* secondary: the control fill (inputs, secondary buttons), drawn from the combo's second colour; hover lightens toward its anchor. */
   --color-secondary: var(--cc-accent-2-900);
   --color-secondary-muted: var(--cc-accent-2-800);

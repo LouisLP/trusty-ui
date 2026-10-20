@@ -9,7 +9,7 @@
 import type { HighlighterCore, ThemedToken } from 'shiki/core'
 import { createHighlighterCore } from 'shiki/core'
 import { createJavaScriptRegexEngine } from 'shiki/engine/javascript'
-import tokyoNight from 'shiki/themes/tokyo-night.mjs'
+import ayuMirage from 'shiki/themes/ayu-mirage.mjs'
 
 // The small language set the app actually uses. Extend the map, and thereby the TrustyCodeLanguage union, when a real need appears.
 const LANGUAGE_LOADERS = {
@@ -22,14 +22,15 @@ const LANGUAGE_LOADERS = {
 /** Languages the code components can label and highlight. */
 export type TrustyCodeLanguage = keyof typeof LANGUAGE_LOADERS
 
-const THEME = tokyoNight.name ?? 'tokyo-night'
+// Ayu Mirage: orange and amber keywords that echo the accent, and every token colour but comments clears 4.5:1 on the Dark Tyrian Blue code surface.
+const THEME = ayuMirage.name ?? 'ayu-mirage'
 
 let highlighterPromise: Promise<HighlighterCore> | undefined
 
 function getHighlighter(): Promise<HighlighterCore> {
   highlighterPromise ??= createHighlighterCore({
     langs: [],
-    themes: [tokyoNight],
+    themes: [ayuMirage],
     // Forgiving: a pattern the JS engine can't compile degrades that token's highlighting instead of throwing for the whole block.
     engine: createJavaScriptRegexEngine({ forgiving: true }),
   })

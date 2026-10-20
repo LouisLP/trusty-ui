@@ -7,7 +7,7 @@
 
 A multi-line code surface: a header with the language label and a copy-to-clipboard
 button, above the code with a line-number gutter in a two-axis scroll area.
-Setting `language` also syntax-highlights the code via Shiki (Tokyo Night theme,
+Setting `language` also syntax-highlights the code via Shiki (Ayu Mirage theme,
 loaded lazily); omit it for plain preformatted text.
 
 Read-only by default. Set `editable` and the header gains an **Edit** button:

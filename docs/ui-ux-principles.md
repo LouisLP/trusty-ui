@@ -129,7 +129,9 @@ Every colour comes from a semantic role in `semantic.css`:
 - **Surfaces**: `--color-bg`, `-lowered`, `-elevated`, `-accented`, `-sunken`.
 - **Borders**: `--color-border`, `-muted`, `-highlight`, `-danger`.
 - **Primary**: `--color-primary`, `-hover`, `-active`, `-highlight`, `-muted`,
-  `-disabled`, plus `--color-on-primary` for text and icons on a primary fill.
+  `-disabled`, plus `--color-on-primary` for text and icons on a primary fill;
+  `--color-primary-surface` (`-hover`, `-active`) with `--color-on-primary-surface`
+  (`-hover`) for the primary button's deep, tonal fill.
 - **Secondary**: `--color-secondary`, `-muted`. The control fill (inputs,
   checkboxes, secondary buttons), drawn from Dark Tyrian Blue.
 - **Status**: `--color-{danger,warning,success,info}-{text,surface,surface-subtle}`,
@@ -153,7 +155,8 @@ heading colour or a background wash; a screen painted orange has nothing left to
 point with.
 
 - **Text on a primary fill is `--color-on-primary`** (black, for combo #2),
-  never `--color-text`. White on Yellow Orange is roughly 2:1.
+  never `--color-text`. White on Yellow Orange is roughly 2:1. On the tonal
+  `--color-primary-surface`, it is `--color-on-primary-surface`.
 - **Primary as text, a ring or an indicator on a dark surface is
   `--color-primary-highlight`.** `--color-primary` is the fill.
 - **Warning is yellow, not orange**, so it never reads as the accent. Don't
