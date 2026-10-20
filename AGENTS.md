@@ -55,7 +55,7 @@ CI is GitHub Actions, in [`.github/workflows/ci.yml`](.github/workflows/ci.yml),
 on every pull request and every push to `main`. It gates on `lint`,
 `type-check`, `generate:icons --check`, `generate:context --check`, `build`,
 and the test run, axe included — all required checks in the `main` ruleset, so
-a red pull request cannot merge — run the first four and `test:unit` by hand before
+a red pull request cannot merge. Run the first four and `test:unit` by hand before
 handing work back rather than waiting for the pipeline to say so, and
 `test:storybook` too when a component's markup or colours changed.
 
