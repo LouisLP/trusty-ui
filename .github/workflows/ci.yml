@@ -55,14 +55,20 @@ jobs:
 
   # The two Vitest projects run side by side: `unit` (*.spec.ts in jsdom) and
   # `storybook` (every story rendered in Chromium, its `play` function run,
-  # axe-core reported). On a pull request that is all they do. On main each
-  # also writes coverage into a blob report, and the `coverage` job merges the
-  # two, so a component exercised only by its stories still counts as covered.
+  # axe-core reported). `unit` is split in two shards, since jsdom makes it
+  # roughly twice the CPU of the story run. On a pull request that is all they
+  # do. On main each leg also writes coverage into a blob report, and the
+  # `coverage` job merges them, so a component exercised only by its stories
+  # still counts as covered.
   test:
+    name: test (${{ matrix.project }} ${{ matrix.shard }})
     strategy:
       fail-fast: false
       matrix:
-        project: [unit, storybook]
+        include:
+          - {project: unit, shard: 1/2, blob: unit-1}
+          - {project: unit, shard: 2/2, blob: unit-2}
+          - {project: storybook, shard: 1/1, blob: storybook}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v7
@@ -70,13 +76,13 @@ jobs:
       - if: matrix.project == 'storybook'
         uses: ./.github/actions/playwright
       - if: github.ref != 'refs/heads/main'
-        run: pnpm vitest run --project ${{ matrix.project }}
+        run: pnpm vitest run --project ${{ matrix.project }} --shard=${{ matrix.shard }}
       - if: github.ref == 'refs/heads/main'
-        run: pnpm vitest run --project ${{ matrix.project }} --coverage --reporter=default --reporter=blob --outputFile=.vitest-reports/blob-${{ matrix.project }}.json
+        run: pnpm vitest run --project ${{ matrix.project }} --shard=${{ matrix.shard }} --coverage --reporter=default --reporter=blob --outputFile=.vitest-reports/blob-${{ matrix.blob }}.json
       - if: github.ref == 'refs/heads/main' && !cancelled()
         uses: actions/upload-artifact@v7
         with:
-          name: blob-${{ matrix.project }}
+          name: blob-${{ matrix.blob }}
           path: .vitest-reports/
           include-hidden-files: true
           retention-days: 1
