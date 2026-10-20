@@ -183,8 +183,13 @@ jobs:
           path: dist/
       # The token goes in the user-level ~/.npmrc, written as a literal: pnpm
       # reads auth from there and never from a committed project .npmrc.
-      # publishConfig.registry in package.json points the publish at it.
-      - run: echo "//npm.pkg.github.com/:_authToken=${GITHUB_TOKEN}" >> ~/.npmrc
+      # publishConfig.registry in package.json points the publish at it, but
+      # not the `pnpm info` changesets runs first to see what is already
+      # published: without the scope mapping that lookup asks npmjs.org, gets a
+      # 404, and every main run re-publishes the current version into a 409.
+      - run: |
+          echo "@louislp:registry=https://npm.pkg.github.com" >> ~/.npmrc
+          echo "//npm.pkg.github.com/:_authToken=${GITHUB_TOKEN}" >> ~/.npmrc
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - uses: changesets/action@v2
