@@ -297,7 +297,7 @@ onBeforeUnmount(() => clearTimeout(copiedTimer))
   flex: 1;
   min-block-size: 0;
   overflow: hidden;
-  background-color: var(--color-secondary-muted);
+  background-color: var(--color-secondary);
   border: var(--border-md) solid var(--color-border);
 
   border-block-start-color: transparent;
@@ -325,11 +325,11 @@ onBeforeUnmount(() => clearTimeout(copiedTimer))
   color: var(--color-text-muted);
   text-align: end;
   user-select: none;
-  background-color: var(--color-secondary-muted);
+  background-color: var(--color-secondary);
   border-inline-end: var(--border-sm) solid var(--color-border);
 }
 
-/* Edit mode drops into the content slot. CodeEditorBase brings its own complete border, so it squares the corners that meet the header rather than doubling the read view's rounding. */
+/* Edit mode drops into the content slot; CodeEditorBase paints the same --color-secondary ground as the read view, and brings its own complete border, so it squares the corners that meet the header rather than doubling the read view's rounding. */
 .trusty-code-block-editor {
   flex: 1;
   min-block-size: 0;
