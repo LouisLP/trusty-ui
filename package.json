@@ -1,0 +1,142 @@
+{
+  "name": "@louislp/trusty-ui",
+  "type": "module",
+  "version": "1.0.0",
+  "packageManager": "pnpm@12.10.1+sha512.ba40a37eb1a370d60fea8c4cf1d364c13bcccef518e98ad2bcee954f539d38da37458e58261a3fa55e06523450ea0ffff9f497b135be41f2c15c1642bacace6c",
+  "description": "Trusty UI: a modern, accessible Vue 3 component library built on Reka UI headless primitives and Trusty design tokens, with Iconify icons bundled.",
+  "author": "Louis Lascelles-Palys",
+  "license": "MIT",
+  "homepage": "https://louislp.github.io/trusty-ui",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/LouisLP/trusty-ui.git"
+  },
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com",
+    "access": "restricted",
+    "exports": {
+      ".": {
+        "types": "./dist/index.d.mts",
+        "import": "./dist/index.mjs"
+      },
+      "./style.css": "./dist/style.css",
+      "./styles/*": "./src/styles/*",
+      "./fonts/*": "./src/assets/fonts/*",
+      "./src/styles/*": "./src/styles/*",
+      "./src/assets/fonts/*": "./src/assets/fonts/*",
+      "./manifest.json": "./context/manifest.json",
+      "./context/*": "./context/*"
+    }
+  },
+  "sideEffects": [
+    "**/*.css"
+  ],
+  "exports": {
+    ".": {
+      "trusty-source": "./src/index.ts",
+      "types": "./dist/index.d.mts",
+      "import": "./dist/index.mjs"
+    },
+    "./style.css": "./dist/style.css",
+    "./styles/*": "./src/styles/*",
+    "./fonts/*": "./src/assets/fonts/*",
+    "./src/styles/*": "./src/styles/*",
+    "./src/assets/fonts/*": "./src/assets/fonts/*",
+    "./manifest.json": "./context/manifest.json",
+    "./context/*": "./context/*"
+  },
+  "files": [
+    "CHANGELOG.md",
+    "CONTEXT.md",
+    "context",
+    "dist",
+    "src/assets/fonts",
+    "src/styles"
+  ],
+  "engines": {
+    "npm": "please-use-pnpm",
+    "yarn": "please-use-pnpm",
+    "node": "^22.0.0"
+  },
+  "scripts": {
+    "build": "tsdown",
+    "type-check": "vue-tsc --build",
+    "test": "vitest",
+    "test:unit": "vitest run --project unit",
+    "test:storybook": "vitest run --project storybook",
+    "test:all": "vitest run",
+    "test:coverage": "vitest run --coverage --reporter=default --reporter=junit --outputFile=junit.xml",
+    "test:install": "playwright install chromium",
+    "audit:code": "fallow",
+    "audit:code:changed": "fallow audit --base origin/main",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
+    "storybook": "storybook dev -p 6006",
+    "build-storybook": "storybook build",
+    "generate:icons": "node scripts/generate-icons.mjs",
+    "generate:context": "node scripts/generate-context.mjs",
+    "new:component": "node scripts/new-component.mjs",
+    "changeset": "changeset",
+    "version-packages": "changeset version",
+    "release": "pnpm build && changeset publish"
+  },
+  "peerDependencies": {
+    "@iconify/vue": "^5.0.0",
+    "vue": "^3.5.0"
+  },
+  "dependencies": {
+    "@codemirror/commands": "^6.11.1",
+    "@codemirror/language": "^6.13.1",
+    "@codemirror/state": "^6.7.6",
+    "@codemirror/view": "^6.43.14",
+    "@fontsource-variable/bricolage-grotesque": "^5.3.0",
+    "@fontsource-variable/inter": "^5.3.0",
+    "@fontsource-variable/jetbrains-mono": "^5.3.0",
+    "chart.js": "^4.5.1",
+    "japanese-colour-combos": "0.1.0",
+    "reka-ui": "2.10.4",
+    "shiki": "^4.5.0",
+    "vue-chartjs": "^5.3.4"
+  },
+  "devDependencies": {
+    "@antfu/eslint-config": "^9.5.1",
+    "@changesets/cli": "^3.0.3",
+    "@iconify-json/ph": "^1.2.2",
+    "@iconify/utils": "^3.1.7",
+    "@iconify/vue": "^5.0.3",
+    "@storybook/addon-a11y": "^10.6.1",
+    "@storybook/addon-docs": "^10.6.1",
+    "@storybook/addon-vitest": "^10.6.1",
+    "@storybook/vue3-vite": "^10.6.1",
+    "@tsconfig/node20": "^20.1.10",
+    "@tsdown/css": "^0.22.14",
+    "@types/jsdom": "^30.0.0",
+    "@types/node": "^26.6.4",
+    "@vitejs/plugin-vue": "^6.0.9",
+    "@vitest/browser": "^4.1.11",
+    "@vitest/browser-playwright": "^4.1.11",
+    "@vitest/coverage-v8": "^4.1.11",
+    "@vue/test-utils": "^2.5.1",
+    "@vue/tsconfig": "^0.9.1",
+    "eslint": "^10.12.0",
+    "eslint-plugin-format": "^2.0.1",
+    "eslint-plugin-storybook": "10.6.0",
+    "eslint-plugin-vuejs-accessibility": "^2.6.2",
+    "fallow": "^3.32.0",
+    "jiti": "^2.7.0",
+    "jsdom": "^30.1.2",
+    "playwright": "^1.64.0",
+    "react": "19.3.0",
+    "react-dom": "19.3.0",
+    "storybook": "^10.6.1",
+    "storybook-dark-mode": "^5.0.0",
+    "tsdown": "^0.22.14",
+    "typescript": "~5.9.3",
+    "unplugin-vue": "^7.2.0",
+    "vite": "^8.3.3",
+    "vitest": "^4.1.11",
+    "vue": "^3.5.43",
+    "vue-component-meta": "^3.3.12",
+    "vue-tsc": "^3.3.12"
+  }
+}

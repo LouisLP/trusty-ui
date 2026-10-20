@@ -1,0 +1,152 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+# A newer push to a pull request supersedes the run in flight. On main every
+# run finishes: cancelling one mid-publish would leave the git tag and the
+# registry disagreeing about what shipped.
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: ${{ github.ref != 'refs/heads/main' }}
+
+permissions:
+  contents: read
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: ./.github/actions/setup
+      - run: pnpm lint
+
+  type-check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: ./.github/actions/setup
+      - run: pnpm type-check
+
+  # src/icons/icons.generated.ts is committed and nothing regenerates it
+  # automatically, so it silently drifts when a component starts naming a new
+  # icon. `--check` renders without writing and fails if the committed output
+  # differs.
+  icons-generated:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: ./.github/actions/setup
+      - run: pnpm run generate:icons --check
+
+  # context/ is the copy of this library's guidance that ships to consumers, and
+  # it is committed for the same reason icons.generated.ts is. Editing a story's
+  # guidance or a fenced range in CONTEXT.md without regenerating publishes a
+  # package that tells consumers something the library no longer says.
+  context-generated:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: ./.github/actions/setup
+      - run: pnpm run generate:context --check
+
+  # Both Vitest projects in one run: `unit` (*.spec.ts in jsdom) and `storybook`
+  # (every story rendered in Chromium, its `play` function run, axe-core
+  # reported). One coverage report spans the two, so a component exercised only
+  # by its stories still counts as covered.
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: ./.github/actions/setup
+      - uses: ./.github/actions/playwright
+      - run: pnpm test:coverage
+      - if: ${{ !cancelled() }}
+        uses: actions/upload-artifact@v7
+        with:
+          name: test-reports
+          path: |
+            junit.xml
+            coverage/
+
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: ./.github/actions/setup
+      - run: pnpm build
+      - uses: actions/upload-artifact@v7
+        with:
+          name: dist
+          path: dist/
+          retention-days: 7
+
+  # Built on every run so a broken Storybook fails the pull request that broke
+  # it; deployed from main only. GitHub Pages has one site per repository and
+  # no per-branch previews, so a reviewer runs `pnpm storybook` on the branch.
+  # The deploy also waits for the repo to go public: the plan has no Pages for
+  # a private one, and the deploy would turn every main run red until then.
+  storybook:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: ./.github/actions/setup
+      - run: pnpm build-storybook
+      - if: github.ref == 'refs/heads/main' && !github.event.repository.private
+        uses: actions/upload-pages-artifact@v5
+        with:
+          path: storybook-static/
+
+  pages:
+    if: github.ref == 'refs/heads/main' && !github.event.repository.private
+    needs: storybook
+    runs-on: ubuntu-latest
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deploy.outputs.page_url }}
+    concurrency:
+      group: pages
+      cancel-in-progress: false
+    steps:
+      - id: deploy
+        uses: actions/deploy-pages@v5
+
+  # Changesets on main: while unreleased changesets exist, this opens (or
+  # refreshes) a "Version Packages" pull request that bumps `version` and writes
+  # CHANGELOG.md. Merging that pull request leaves no changesets, so the next
+  # run publishes whatever version GitHub Packages doesn't have yet, then tags
+  # it and cuts a GitHub release.
+  release:
+    if: github.ref == 'refs/heads/main'
+    # Every gate, listed: a red check must never publish.
+    needs: [lint, type-check, icons-generated, context-generated, test, build]
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
+      packages: write
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          fetch-depth: 0
+      - uses: ./.github/actions/setup
+      # dist/ comes from the build job — don't rebuild it here.
+      - uses: actions/download-artifact@v8
+        with:
+          name: dist
+          path: dist/
+      # The token goes in the user-level ~/.npmrc, written as a literal: pnpm
+      # reads auth from there and never from a committed project .npmrc.
+      # publishConfig.registry in package.json points the publish at it.
+      - run: echo "//npm.pkg.github.com/:_authToken=${GITHUB_TOKEN}" >> ~/.npmrc
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - uses: changesets/action@v2
+        with:
+          publish-script: pnpm changeset publish

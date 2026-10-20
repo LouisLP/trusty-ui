@@ -1,0 +1,20 @@
+/* Trusty UI global styles — the single stylesheet entry.
+
+   Load ONCE at the app/extension root: import '@louislp/trusty-ui/src/styles/main.css'
+
+   Cascade layers, lowest to highest priority:
+   reset   — browser-default fixes (Josh Comeau reset). Never design here.
+   tokens  — custom properties only: primitive + semantic design tokens.
+   base    — element defaults (links, body typography) built on the tokens.
+
+   Layered styles ALWAYS lose to unlayered ones, so scoped SFC styles and app CSS override reset/base without specificity games. Custom properties are unaffected by layers (they cascade from :root), so var(--token) works everywhere regardless.
+
+   Layer assignment happens HERE, via layer() on each import — the imported files themselves are layer-agnostic plain CSS. */
+@layer reset, tokens, base;
+
+@import url('./reset.css') layer(reset);
+@import url('./tokens/tokens.css') layer(tokens);
+@import url('./base.css') layer(base);
+
+/* Fontsource @font-face declarations — @font-face is unaffected by layers. */
+@import url('../assets/fonts/fonts.css');

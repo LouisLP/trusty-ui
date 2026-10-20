@@ -1,0 +1,18 @@
+{
+  "extends": "@vue/tsconfig/tsconfig.dom.json",
+  "compilerOptions": {
+    // composite is what lets `vue-tsc --build` cache between runs.
+    "composite": true,
+    "tsBuildInfoFile": "./node_modules/.tmp/tsconfig.lib.tsbuildinfo",
+    "types": [
+      "vite/client"
+    ],
+    "noUncheckedIndexedAccess": true,
+    "verbatimModuleSyntax": true,
+    "erasableSyntaxOnly": true
+  },
+  "include": [
+    "src/**/*",
+    "src/**/*.vue"
+  ]
+}

@@ -1,0 +1,58 @@
+{
+  // This file is JSONC: fallow reads these comments; generic JSON tools may not.
+  "$schema": "./node_modules/fallow/schema.json",
+
+  // One package, one JS entry (CONTEXT.md, "the single entry"), plus the
+  // stylesheets and fonts consumers reach through the package.json `exports`
+  // wildcards, which fallow cannot expand on its own, and the dev-only roots
+  // (Storybook, codegen, build/lint config) that pull the devDependencies.
+  "entry": [
+    "src/index.ts",
+    "src/styles/**/*.css",
+    "src/assets/fonts/fonts.css",
+    "scripts/*.mjs",
+    ".storybook/*.ts",
+    "*.config.ts",
+    "eslint.config.mts"
+  ],
+
+  "duplicates": {
+    // Hide pair-only clones; focus on widespread copy-paste
+    // worth refactoring. Lower to 2 to report every duplicate pair.
+    "minOccurrences": 3,
+    "ignore": [
+      // `pnpm generate:icons` output: one identically shaped record per icon.
+      "**/*.generated.ts"
+    ]
+  },
+
+  "health": {
+    "ignore": ["**/*.generated.ts"],
+    "thresholdOverrides": [
+      {
+        "files": ["src/**/*.vue"],
+        "functions": ["<template>"],
+        "maxUnitSize": 600,
+        "reason": "An SFC <template> is a whole component's markup, not a function; its line count says nothing. Cognitive/cyclomatic thresholds still apply and are the real signal."
+      },
+      {
+        "files": ["**/*.spec.ts", "**/*.stories.ts"],
+        "maxUnitSize": 700,
+        "reason": "A describe() block or a CSF meta is a container, not a unit of logic."
+      }
+    ]
+  },
+
+  "ignoreDependencies": [
+    // Loaded implicitly, never imported:
+    "jiti", // ESLint's loader for eslint.config.mts
+    "@tsdown/css" // optional tsdown peer behind `css: { inject: true }`
+  ],
+
+  "rules": {
+    // `.storybook/` and `scripts/` are entry points above so their devDeps
+    // resolve, but fallow then reads them as production roots. The only real
+    // production graph here is src/index.ts, which imports no devDependency.
+    "dev-dependencies-in-production": "off"
+  }
+}

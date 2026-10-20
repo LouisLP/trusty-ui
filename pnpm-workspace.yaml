@@ -1,0 +1,15 @@
+# Single-package repo with no workspace: no `packages` list. The file stays
+# because pnpm reads its settings (shell emulator, trust policy, build
+# allow-list) from here, not from .npmrc.
+minimumReleaseAgeExcludePrune: true
+trustPolicy: no-downgrade
+trustPolicyIgnoreAfter: 10080
+shellEmulator: true
+
+# 8.71.x flags every top-level const in .mjs as "only used as a type"; drop once fixed upstream.
+overrides:
+  '@typescript-eslint/eslint-plugin': 8.70.1
+
+allowBuilds:
+  esbuild: true
+  vue-demi: true

@@ -1,0 +1,14 @@
+name: Setup
+description: pnpm from package.json's packageManager, Node from .node-version, a frozen install with the store cached on the lockfile.
+
+runs:
+  using: composite
+  steps:
+    - uses: pnpm/action-setup@v6
+      with:
+        cache: true
+    - uses: actions/setup-node@v7
+      with:
+        node-version-file: .node-version
+    - shell: bash
+      run: pnpm install --frozen-lockfile

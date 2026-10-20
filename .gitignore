@@ -1,0 +1,29 @@
+# --- Editors ---
+.idea
+.vscode/settings.json
+.zed/settings.json
+
+# --- OS ---
+.DS_Store
+
+# --- Logs ---
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# --- Node / pnpm ---
+node_modules
+.pnpm-store
+dist
+coverage
+storybook-static
+*.tsbuildinfo
+
+# --- Test reports (CI artifacts) ---
+junit.xml
+
+# --- Playwright browsers (point PLAYWRIGHT_BROWSERS_PATH here to keep the Chromium the storybook Vitest project renders in cacheable) ---
+/.playwright
+
+.fallow/

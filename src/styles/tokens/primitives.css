@@ -1,0 +1,102 @@
+/* Trusty UI primitive tokens: the raw colours the combo cannot supply.
+
+   Surfaces, text, borders, primary and secondary come from japanese-colour-combos (--cc-*, imported in tokens.css). What stays here is what a two-colour combo has no answer for: the status hues, the tag hues and white.
+
+   These are literal values with no role attached. Components must NEVER reference them directly — alias them behind a role-based token in semantic.css and use that instead. token-tiers.spec.ts enforces this.
+
+   Every ramp is built in oklch on the combo's own grid, so a status hue sits at the same lightness as the --cc-* step of the same number:
+     L  50 99.3%  100 93.8%  200 83.5%  300 73.5%  400 64.5%  500 56.3%  600 48.5%  700 40.7%  800 32.5%  900 21.8%  950 9.9%
+     C  peak × the accent's own profile (300 = 1, tapering to 0.02 at 50 and 0.14 at 950), clipped to the sRGB gamut
+   Only the hue and the peak chroma are chosen per ramp, and they are noted beside its name. The values are written out as hex because Chart.js reads the series colours, and neither it nor withAlpha() parses oklch().
+
+   The ramps are fixed rather than derived from --cc-*: a status hue means what it means whatever the combo, and the dark surfaces every combo ships sit close enough that one set passes AA on all 348 (danger text on surface-muted is the tightest, 5.75:1). There is no orange: orange is the combo's accent, and warning is yellow so it cannot be mistaken for it.
+
+   Loaded via the token barrel (tokens.css) → styles/main.css. */
+
+:root {
+  /* blue: h 250, C 0.15 — bluer and brighter than Dark Tyrian Blue (h 243, C 0.06), so info never reads as a secondary control */
+  --color-blue-50: #fbfdff;
+  --color-blue-100: #dcedff;
+  --color-blue-200: #9fcefe;
+  --color-blue-300: #5eaefd;
+  --color-blue-400: #4792da;
+  --color-blue-500: #3b79b5;
+  --color-blue-600: #2e6295;
+  --color-blue-700: #224c74;
+  --color-blue-800: #173654;
+  --color-blue-900: #091b2d;
+  --color-blue-950: #010309;
+
+  /* red: h 25, C 0.17 */
+  --color-red-50: #fffcfb;
+  --color-red-100: #ffe3e0;
+  --color-red-200: #feb3ac;
+  --color-red-300: #fe7c75;
+  --color-red-400: #da645e;
+  --color-red-500: #b5524d;
+  --color-red-600: #94423e;
+  --color-red-700: #74322f;
+  --color-red-800: #542220;
+  --color-red-900: #2d100e;
+  --color-red-950: #090101;
+
+  /* green: h 150, C 0.15 */
+  --color-green-50: #fbfdfb;
+  --color-green-100: #d9f2dd;
+  --color-green-200: #93dea2;
+  --color-green-300: #58c375;
+  --color-green-400: #49a461;
+  --color-green-500: #3c8850;
+  --color-green-600: #2f6e40;
+  --color-green-700: #235631;
+  --color-green-800: #173d21;
+  --color-green-900: #09200f;
+  --color-green-950: #010401;
+
+  /* yellow: h 100, C 0.15 — 33° clear of the accent (h 67) */
+  --color-yellow-50: #fdfdfa;
+  --color-yellow-100: #f0ecce;
+  --color-yellow-200: #dacb72;
+  --color-yellow-300: #c0aa11;
+  --color-yellow-400: #a18e0c;
+  --color-yellow-500: #85760b;
+  --color-yellow-600: #6c6005;
+  --color-yellow-700: #544a04;
+  --color-yellow-800: #3c3402;
+  --color-yellow-900: #1f1a01;
+  --color-yellow-950: #040300;
+
+  /* ─── extended palette ───
+     Tag hues, for telling one tag from another at a glance. Decorative, not
+     status: semantic.css aliases them as --color-tag-*. Only the steps a
+     design uses are here; text is 100 (stone 200), the hue 300. */
+
+  /* stone: h 30, C 0.014 */
+  --color-stone-200: #d0c7c5;
+  --color-stone-300: #b2a6a4;
+
+  /* purple: h 300, C 0.14 */
+  --color-purple-100: #eee6ff;
+  --color-purple-300: #b794f4;
+
+  /* forest: h 125, C 0.11 */
+  --color-forest-100: #e6eeda;
+  --color-forest-300: #99b566;
+
+  /* mint: h 180, C 0.09 */
+  --color-mint-100: #dbf0eb;
+  --color-mint-300: #63bcab;
+  --color-mint-600: #356a60;
+
+  /* magenta: h 340, C 0.15 — 400 is the selected-tag ring; the one hue whose ring is not its own mid step. */
+  --color-magenta-100: #fee1f3;
+  --color-magenta-300: #e681c7;
+  --color-magenta-400: #c26ba7;
+
+  /* brown: h 50, C 0.07 */
+  --color-brown-100: #f5e7e0;
+  --color-brown-300: #ce9d82;
+
+  /* white */
+  --color-white: #fff;
+}

@@ -1,0 +1,70 @@
+/* Trusty UI base styles: element defaults on top of the reset.
+
+   This is where bare HTML elements get their design-system look — the styles an element has BEFORE any component class touches it. Everything references semantic tokens; no raw values.
+
+   Imported by styles/main.css into a layer above reset and tokens but below everything else, so any app CSS or scoped SFC style overrides it without specificity games. Keep this file small: if a rule only makes sense inside one component, it belongs in that component, not here. */
+
+body {
+  font-family: var(--font-family-sans);
+  line-height: var(--line-height-normal);
+  color: var(--color-text);
+  background-color: var(--color-bg);
+}
+
+/* Headings take the display face; everything below them stays on the body face body sets. A component that renders a heading only as a wrapper (TrustyAccordion's header) resets it with `font: inherit`. */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: var(--font-family-display);
+}
+
+/* Links. Scoped to UNCLASSED anchors */
+/* stylelint-disable selector-no-qualifying-type --
+   qualified type selectors are the whole point of a base stylesheet: the a:not([class]) guard above is what keeps these rules off components */
+a:not([class]) {
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-primary-highlight);
+  text-decoration: none;
+}
+
+a:not([class]):hover,
+a:not([class]):focus {
+  text-decoration: underline;
+  text-decoration-thickness: from-font;
+  text-underline-position: from-font;
+}
+
+a:not([class]):focus-visible {
+  outline: var(--border-md) solid var(--color-primary-highlight);
+  outline-offset: var(--space-2xs);
+  border-radius: var(--radius-xs);
+}
+
+/* Disabled state (anchors have no :disabled) — dimmed, no hover affordance. */
+a:not([class])[aria-disabled='true'] {
+  color: var(--color-primary-disabled);
+  text-decoration: none;
+  pointer-events: none;
+}
+
+a[class] {
+  color: inherit;
+  text-decoration: none;
+}
+
+/* Inline code. Scoped to <code> OUTSIDE <pre>, so code-block components (TrustyCodeBlock) and any <pre> content keep styling their own code. */
+:not(pre) > code {
+  padding-block: var(--space-2xs);
+  padding-inline: var(--space-xs);
+  font-family: var(--font-family-mono);
+  font-size: var(--font-size-sm);
+  font-variant-ligatures: none;
+  color: var(--color-text-toned);
+  overflow-wrap: break-word;
+  background-color: var(--color-secondary);
+  border: var(--border-sm) solid var(--color-border);
+  border-radius: var(--radius-xs);
+}

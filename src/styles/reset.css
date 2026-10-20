@@ -1,0 +1,83 @@
+/* Trusty UI CSS reset — based on Josh Comeau's custom reset (https://www.joshwcomeau.com/css/custom-css-reset/).
+
+   Pragmatic, not scorched-earth: only genuinely problematic browser defaults are overridden. Design decisions (colors, fonts, spacing) belong in the tokens and base.css, never here.
+
+   Imported into the lowest cascade layer by styles/main.css, so ANY other style — layered base styles, unlayered app CSS, scoped SFC styles — wins over it without specificity games. */
+
+/* Intuitive box-sizing: padding and border count into declared sizes. */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+/* Spacing is a layout decision, not a browser default. <dialog> keeps its margin: auto — that's what centers it in the viewport. */
+*:not(dialog) {
+  margin: 0;
+}
+
+/* Enable transitions to/from intrinsic sizes (height: auto, etc.). */
+@media (prefers-reduced-motion: no-preference) {
+  html {
+    interpolate-size: allow-keywords;
+  }
+}
+
+body {
+  /* Browser default (~1.2) is too tight for body text; base.css refines this with the --line-height-* tokens. */
+  /* stylelint-disable-next-line scale-unlimited/declaration-strict-value --
+     the reset sits below the tokens layer and must not depend on them */
+  line-height: 1.5;
+
+  /* Match modern macOS system rendering (no subpixel antialiasing). */
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Media: kill the inline-image baseline gap, never overflow the container. svg is deliberately NOT included (Comeau's original has it): legacy gui-kit icons are inline <svg>s whose alignment is pixel-tuned around baseline behaviour, and blockifying them shifts every icon. Components that want block svgs set it themselves; revisit once gui-kit is retired. */
+img,
+picture,
+video,
+canvas {
+  display: block;
+  max-width: 100%;
+}
+
+/* Form controls don't inherit typography by default — make them. */
+input,
+button,
+textarea,
+select {
+  font: inherit;
+}
+
+/* Long unbroken strings (URLs, uids) must not overflow horizontally. */
+p,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  overflow-wrap: break-word;
+}
+
+/* Nicer line wrapping; progressive enhancement, ignored where unsupported. */
+p {
+  text-wrap: pretty;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  text-wrap: balance;
+}
+
+/* Root stacking context: keeps z-indexed UI (modals, tooltips) from escaping the app container. Harmless if the id is absent. */
+/* stylelint-disable-next-line selector-max-id, selector-max-specificity --
+   #app is the conventional Vue mount point; :where() drops the specificity */
+:where(#app) {
+  isolation: isolate;
+}
