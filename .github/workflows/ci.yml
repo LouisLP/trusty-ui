@@ -16,6 +16,10 @@ concurrency:
 permissions:
   contents: read
 
+# The `main` ruleset requires lint, type-check, icons-generated,
+# context-generated, every `test (…)` leg and build by name. Renaming a job or
+# a matrix leg leaves pull requests waiting on a check that never reports:
+# change the ruleset in the same breath.
 jobs:
   lint:
     runs-on: ubuntu-latest
@@ -53,17 +57,53 @@ jobs:
       - uses: ./.github/actions/setup
       - run: pnpm run generate:context --check
 
-  # Both Vitest projects in one run: `unit` (*.spec.ts in jsdom) and `storybook`
-  # (every story rendered in Chromium, its `play` function run, axe-core
-  # reported). One coverage report spans the two, so a component exercised only
-  # by its stories still counts as covered.
+  # The two Vitest projects run side by side: `unit` (*.spec.ts in jsdom) and
+  # `storybook` (every story rendered in Chromium, its `play` function run,
+  # axe-core reported). `unit` is split in two shards, since jsdom makes it
+  # roughly twice the CPU of the story run. On a pull request that is all they
+  # do. On main each leg also writes coverage into a blob report, and the
+  # `coverage` job merges them, so a component exercised only by its stories
+  # still counts as covered.
   test:
+    name: test (${{ matrix.project }} ${{ matrix.shard }})
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - {project: unit, shard: 1/2, blob: unit-1}
+          - {project: unit, shard: 2/2, blob: unit-2}
+          - {project: storybook, shard: 1/1, blob: storybook}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v7
       - uses: ./.github/actions/setup
-      - uses: ./.github/actions/playwright
-      - run: pnpm test:coverage
+      - if: matrix.project == 'storybook'
+        uses: ./.github/actions/playwright
+      - if: github.ref != 'refs/heads/main'
+        run: pnpm vitest run --project ${{ matrix.project }} --shard=${{ matrix.shard }}
+      - if: github.ref == 'refs/heads/main'
+        run: pnpm vitest run --project ${{ matrix.project }} --shard=${{ matrix.shard }} --coverage --reporter=default --reporter=blob --outputFile=.vitest-reports/blob-${{ matrix.blob }}.json
+      - if: github.ref == 'refs/heads/main' && !cancelled()
+        uses: actions/upload-artifact@v7
+        with:
+          name: blob-${{ matrix.blob }}
+          path: .vitest-reports/
+          include-hidden-files: true
+          retention-days: 1
+
+  coverage:
+    if: github.ref == 'refs/heads/main' && !cancelled()
+    needs: test
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: ./.github/actions/setup
+      - uses: actions/download-artifact@v8
+        with:
+          pattern: blob-*
+          path: .vitest-reports/
+          merge-multiple: true
+      - run: pnpm vitest run --merge-reports --coverage --reporter=default --reporter=junit --outputFile=junit.xml
       - if: ${{ !cancelled() }}
         uses: actions/upload-artifact@v7
         with:
