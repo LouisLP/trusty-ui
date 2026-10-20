@@ -17,7 +17,7 @@ const GROUPS: [group: string, tokens: string[]][] = [
   ['Text', ['text', 'text-toned', 'text-muted', 'text-inverted']],
   ['Surfaces', ['bg-sunken', 'bg-lowered', 'bg', 'bg-elevated', 'bg-accented']],
   ['Borders', ['border-muted', 'border', 'border-highlight', 'border-danger']],
-  ['Primary', ['primary', 'primary-hover', 'primary-active', 'on-primary', 'primary-highlight', 'primary-muted', 'primary-disabled']],
+  ['Primary', ['primary', 'primary-hover', 'primary-active', 'on-primary', 'primary-highlight', 'primary-muted', 'primary-disabled', 'primary-surface', 'primary-surface-hover', 'primary-surface-active', 'on-primary-surface', 'on-primary-surface-hover']],
   ['Secondary', ['secondary', 'secondary-muted']],
   ['Status', ['danger-text', 'danger-surface', 'warning-text', 'warning-surface', 'success-text', 'success-surface', 'info-text', 'info-surface', 'on-status']],
   ['Controls', ['control-thumb']],
@@ -40,6 +40,8 @@ const PAIRS: Pair[] = [
   ...['text', 'text-toned', 'text-muted'].flatMap(fg => TEXT_GROUNDS.map(bg => ({ fg, bg, min: 4.5 as const }))),
   ...['primary-highlight', 'danger-text', 'warning-text', 'success-text', 'info-text'].flatMap(fg => PANEL_GROUNDS.map(bg => ({ fg, bg, min: 4.5 as const }))),
   ...['primary', 'primary-hover', 'primary-active'].map(bg => ({ fg: 'on-primary', bg, min: 4.5 as const })),
+  ...['primary-surface', 'primary-surface-active'].map(bg => ({ fg: 'on-primary-surface', bg, min: 4.5 as const })),
+  { fg: 'on-primary-surface-hover', bg: 'primary-surface-hover', min: 4.5 },
   ...['danger-surface', 'warning-surface', 'success-surface', 'info-surface', 'primary-muted'].map(bg => ({ fg: 'text', bg, min: 4.5 as const })),
   ...['danger-surface', 'warning-surface', 'success-surface', 'info-surface', 'bg-accented'].map(bg => ({ fg: 'on-status', bg, min: 4.5 as const })),
   // The checked switch is on-primary on primary, gated above.
