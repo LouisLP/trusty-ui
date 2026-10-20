@@ -168,7 +168,7 @@ const isIconOnly = computed(() =>
   --trusty-button-bg: var(--color-primary-surface);
   --trusty-button-bg-hover: var(--color-primary-surface-hover);
   --trusty-button-bg-active: var(--color-primary-surface-active);
-  --trusty-button-bg-disabled: var(--color-primary-disabled);
+  --trusty-button-bg-disabled: var(--color-primary-surface-active);
 }
 
 .trusty-button[data-variant='secondary'] {

@@ -137,7 +137,7 @@ Every colour comes from a semantic role in `semantic.css`:
 - **Primary**: `--color-primary`, `-hover`, `-active`, `-highlight`, `-muted`,
   `-disabled`, plus `--color-on-primary` for text and icons on a primary fill;
   `--color-primary-surface` (`-hover`, `-active`) with `--color-on-primary-surface`
-  (`-hover`) for the primary button's deep, tonal fill.
+  (`-hover`) for the primary button: accent label on a deep accent fill.
 - **Secondary**: `--color-secondary`, `-muted`. The control fill (inputs,
   checkboxes, secondary buttons), drawn from Dark Tyrian Blue.
 - **Status**: `--color-{danger,warning,success,info}-{text,surface,surface-subtle}`,
