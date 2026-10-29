@@ -140,7 +140,7 @@ only — CSS and font files cannot travel through a JS entry.
 
 ## Choosing a component
 
-56 components. `Depth` is the composition vocabulary above; the grouping is
+57 components. `Depth` is the composition vocabulary above; the grouping is
 Storybook's. Open a component's file before using it — the summary here is one
 sentence, and the reasons *not* to reach for it are in there.
 
@@ -151,6 +151,7 @@ sentence, and the reasons *not* to reach for it are in there.
 | [TrustyCodeBlock](components/TrustyCodeBlock.md) | Data Display | composite | A multi-line code surface: a header with the language label and a copy-to-clipboard button, above the code with a line-number gutter in a two-axis scroll area. |
 | [TrustyFilterTag](components/TrustyFilterTag.md) | Data Display | base | A tag chip that switches on and off. |
 | [TrustyKeyboardBadge](components/TrustyKeyboardBadge.md) | Data Display | base | A small badge showing a keyboard shortcut as one key-cap chip per key. |
+| [TrustyStarburst](components/TrustyStarburst.md) | Data Display | base | Old-timey ad emphasis rays, alternating seiji and kaki, with a hand-drawn "line boil": three jittered redraws of the same rays swap on a stepped ~3 fps cycle,… |
 | [TrustyTable](components/TrustyTable.md) | Data Display | composite | Rows and columns as a real HTML table, so a screen reader announces the grid and the headers that name each cell. |
 | [TrustyTag](components/TrustyTag.md) | Data Display | base | A clickable tag chip: a short label in one of seven decorative hues, carrying one glyph that says what clicking it does — a leading `+` to add it, or a… |
 | [TrustyThumbnail](components/TrustyThumbnail.md) | Data Display | specialized | A clickable, framed image preview that opens the full-resolution source in a TrustyLightbox ('fullSrc' falls back to 'src'). |
