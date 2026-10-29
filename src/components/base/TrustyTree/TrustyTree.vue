@@ -249,13 +249,13 @@ async function refocus(id: string) {
   --trusty-tree-chip-bg: var(--color-tag-mint-strong);
 
   /* Tag hues — the --color-tag-* roles in tokens/semantic.css. */
-  --trusty-tree-tag-blue: color-mix(in srgb, var(--color-tag-blue) 40%, transparent);
-  --trusty-tree-tag-stone: color-mix(in srgb, var(--color-tag-stone) 40%, transparent);
-  --trusty-tree-tag-purple: color-mix(in srgb, var(--color-tag-purple) 40%, transparent);
-  --trusty-tree-tag-forest: color-mix(in srgb, var(--color-tag-forest) 40%, transparent);
-  --trusty-tree-tag-mint: color-mix(in srgb, var(--color-tag-mint) 40%, transparent);
-  --trusty-tree-tag-magenta: color-mix(in srgb, var(--color-tag-magenta) 40%, transparent);
-  --trusty-tree-tag-brown: color-mix(in srgb, var(--color-tag-brown) 40%, transparent);
+  --trusty-tree-tag-blue: color-mix(in oklab, var(--color-tag-blue) 40%, transparent);
+  --trusty-tree-tag-stone: color-mix(in oklab, var(--color-tag-stone) 40%, transparent);
+  --trusty-tree-tag-purple: color-mix(in oklab, var(--color-tag-purple) 40%, transparent);
+  --trusty-tree-tag-forest: color-mix(in oklab, var(--color-tag-forest) 40%, transparent);
+  --trusty-tree-tag-mint: color-mix(in oklab, var(--color-tag-mint) 40%, transparent);
+  --trusty-tree-tag-magenta: color-mix(in oklab, var(--color-tag-magenta) 40%, transparent);
+  --trusty-tree-tag-brown: color-mix(in oklab, var(--color-tag-brown) 40%, transparent);
 
   display: flex;
   flex-direction: column;

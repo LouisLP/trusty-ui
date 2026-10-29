@@ -11,7 +11,7 @@
     },
     {
       "title": "Token tiers",
-      "body": "Two tiers in `src/styles/tokens/`, and components may only see one of them.\n\n- **primitive** (`primitives.css`) — the raw palette, all oklch,\n  `--color-kaki-500`. Never referenced outside the semantic tier.\n- **semantic** (`semantic.css`) — the design system's public API:\n  `--color-primary-highlight`, `--color-text`, `--space-*`, `--radius-*`,\n  `--duration-*`. This file is the canonical token reference.\n  Decorative colour gets roles too: `--color-tag-*` for tag hues,\n  `--color-chart-series-*` for chart series.\n\nComponents style through semantic tokens only; `token-tiers.spec.ts` fails when\na component's source names a primitive. Cascade layers run\n`reset, tokens, base`, assigned by `main.css`; layered styles lose to unlayered\nones, so scoped SFC styles and app CSS win without specificity games."
+      "body": "Two tiers in `src/styles/tokens/`, and components may only see one of them.\n\n- **primitive** (`primitives.css`) — the raw palette, all oklch,\n  `--color-kaki-500`. Never referenced outside the semantic tier.\n- **semantic** (`semantic.css`) — the design system's public API:\n  `--color-primary-highlight`, `--color-text`, `--space-*`, `--radius-*`,\n  `--duration-*`. This file is the canonical token reference.\n  Every colour role is a `light-dark()` pair; `:root` declares\n  `color-scheme: light dark`, and an app pins a mode by overriding it.\n  Decorative colour gets roles too: `--color-tag-*` for tag hues. Chart series\n  are the exception, component-level `--trusty-chart-series-*` that ChartBase\n  owns, since nothing outside a chart draws them.\n\nComponents style through semantic tokens only; `token-tiers.spec.ts` fails when\na component's source names a primitive. Cascade layers run\n`reset, tokens, base`, assigned by `main.css`; layered styles lose to unlayered\nones, so scoped SFC styles and app CSS win without specificity games."
     },
     {
       "title": "Two stylesheets",
@@ -144,11 +144,11 @@
       "stories": [
         {
           "name": "Primary",
-          "description": "Default: the primary (solid) variant."
+          "description": "Default: the primary variant, a deep persimmon fill under a white label."
         },
         {
           "name": "Secondary",
-          "description": "Secondary solid fill."
+          "description": "Tonal seiji fill with a seiji label; hover and press stay green."
         },
         {
           "name": "Outline",
@@ -160,7 +160,7 @@
         },
         {
           "name": "Danger",
-          "description": "Destructive actions (red solid fill) — e.g. the AlertDialog's Delete CTA."
+          "description": "Destructive actions (kurenai fill) — e.g. the AlertDialog's Delete CTA."
         },
         {
           "name": "Small",

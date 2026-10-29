@@ -56,7 +56,7 @@ function close() {
 
 <style scoped>
 .dialog-base-overlay {
-  --overlay-color: color-mix(in srgb, var(--color-bg-lowered) 70%, transparent);
+  --overlay-color: color-mix(in oklab, var(--color-bg-lowered) 70%, transparent);
 
   position: fixed;
   inset: 0;

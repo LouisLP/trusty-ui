@@ -292,7 +292,7 @@ function applyLink() {
 /* stylelint-disable-next-line a11y/selector-pseudo-class-focus -- keyboard
    focus gets an equivalent ring from the :focus rule below */
 .markdown-toolbar :deep(.markdown-toolbar-item:hover:not(:disabled)) {
-  background-color: color-mix(in srgb, var(--color-text-muted) 40%, var(--color-bg-accented));
+  background-color: color-mix(in oklab, var(--color-text-muted) 40%, var(--color-bg-accented));
 }
 
 /* Authored on :focus so the a11y linter sees it paired with :hover, then hidden for pointer focus — only keyboard users get the ring. */

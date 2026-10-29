@@ -92,8 +92,11 @@ Two tiers in `src/styles/tokens/`, and components may only see one of them.
 - **semantic** (`semantic.css`) — the design system's public API:
   `--color-primary-highlight`, `--color-text`, `--space-*`, `--radius-*`,
   `--duration-*`. This file is the canonical token reference.
-  Decorative colour gets roles too: `--color-tag-*` for tag hues,
-  `--color-chart-series-*` for chart series.
+  Every colour role is a `light-dark()` pair; `:root` declares
+  `color-scheme: light dark`, and an app pins a mode by overriding it.
+  Decorative colour gets roles too: `--color-tag-*` for tag hues. Chart series
+  are the exception, component-level `--trusty-chart-series-*` that ChartBase
+  owns, since nothing outside a chart draws them.
 
 Components style through semantic tokens only; `token-tiers.spec.ts` fails when
 a component's source names a primitive. Cascade layers run

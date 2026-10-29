@@ -28,7 +28,11 @@ export function readChartTheme(el: Element, seriesCount: number): ChartTheme {
   const style = getComputedStyle(el)
   const rootFontSize = Number.parseFloat(getComputedStyle(el.ownerDocument.documentElement).fontSize) || 16
 
-  const color = (name: string) => style.getPropertyValue(name).trim()
+  // A token holding light-dark(), color-mix() or relative colour syntax is not a colour a canvas can parse, so a probe inside `el` resolves it — under `el`'s own colour scheme.
+  const color = (name: string) => {
+    const value = style.getPropertyValue(name).trim()
+    return /light-dark\(|color-mix\(|\(from /.test(value) ? resolveColor(el, value) : value
+  }
 
   // Browsers substitute var() when computing a custom property; jsdom does not. One hop only.
   const unaliased = (name: string) => {
@@ -62,6 +66,16 @@ export function readChartTheme(el: Element, seriesCount: number): ChartTheme {
     spaceSm: px('--space-sm', 8),
     barSize: px('--trusty-chart-bar-size', 32),
   }
+}
+
+function resolveColor(el: Element, value: string): string {
+  const probe = el.ownerDocument.createElement('span')
+  probe.style.display = 'none'
+  probe.style.color = value
+  el.append(probe)
+  const resolved = getComputedStyle(probe).color
+  probe.remove()
+  return resolved || value
 }
 
 export function chartFont(theme: ChartTheme) {
