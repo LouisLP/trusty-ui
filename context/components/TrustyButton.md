@@ -34,11 +34,11 @@ import { TrustyButton } from '@louislp/trusty-ui'
 
 ## Examples in Storybook
 
-- Primary — Default: the primary (solid) variant.
-- Secondary — Secondary solid fill.
+- Primary — Default: the primary variant, a deep persimmon fill under a white label.
+- Secondary — Tonal seiji fill with a seiji label; hover and press stay green.
 - Outline — Bordered, transparent fill.
 - Ghost — Text-only, no fill or border at rest.
-- Danger — Destructive actions (red solid fill) — e.g. the AlertDialog's Delete CTA.
+- Danger — Destructive actions (kurenai fill) — e.g. the AlertDialog's Delete CTA.
 - Small — Three sizes.
 - Large
 - LeadingIcon — A button carries one icon — the leading one.

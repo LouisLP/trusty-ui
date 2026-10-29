@@ -1,0 +1,8 @@
+/* storybook-dark-mode's toggle puts one of these on the preview's <html>, and the tokens follow: each colour role is a light-dark() pair. Unlayered, so it beats semantic.css's `color-scheme: light dark`. Story tests run without the manager, so neither class lands there and Playwright's colorScheme picks the mode instead. */
+html.trusty-dark {
+  color-scheme: dark;
+}
+
+html.trusty-light {
+  color-scheme: light;
+}

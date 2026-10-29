@@ -76,7 +76,11 @@ export default defineConfig({
             enabled: true,
             headless: true,
             provider: playwright(),
-            instances: [{ browser: 'chromium' }],
+            // Every story renders twice, once per colour scheme, so axe and every play() run against both halves of the light-dark() tokens.
+            instances: [
+              { browser: 'chromium', name: 'storybook (dark)', provider: playwright({ contextOptions: { colorScheme: 'dark' } }) },
+              { browser: 'chromium', name: 'storybook (light)', provider: playwright({ contextOptions: { colorScheme: 'light' } }) },
+            ],
           },
         },
       },

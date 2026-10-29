@@ -5,7 +5,7 @@
    Loaded via the token barrel (tokens.css) → styles/main.css.
 
    Structure:
-   1. Semantic colors    — role-based aliases of the sumi / kaki / seiji theme (and the status primitives).
+   1. Semantic colors    — role-based light-dark() pairs over the sumi / kaki / seiji theme and the dentō-shoku status and tag primitives.
    2. Typography         — font family / size / weight / line-height / letter-spacing.
    3. Spacing            — gap / padding / margin.
    4. Sizing             — width / height / min- / max- dimensions.
@@ -17,129 +17,153 @@
 :root {
   /* ========================== SEMANTIC COLORS ========================= */
 
-  /* Dark only, for now. */
-  color-scheme: dark;
+  /* Both modes. Every colour role is a light-dark() pair, so the page follows the OS until the app pins it: `:root { color-scheme: dark }` (or `light`) in the app's own CSS, which beats this layered declaration. The pair resolves on the element that paints it, so a subtree can flip too. */
+  color-scheme: light dark;
 
-  /* sumi for text, surfaces and borders; kaki is primary, seiji secondary. Status colours stay on their own ramps — text at 300, surfaces at 700, the 400 for borders and subtle washes. The Foundations/Palette story gates every pair below at AA. */
+  /* Colour arithmetic stays perceptual. Alpha on a primitive is relative colour syntax, `oklch(from var(--x) l c h / N%)`: the exact colour, only fainter. Alpha on a semantic light-dark() role is `color-mix(in oklab, X N%, transparent)`, the same result, and the form whose support for a light-dark() origin is settled. Two colours mix `in oklab`, which is even to the eye and never swings the hue the way an oklch mix between kaki and sumi would. */
+
+  /* sumi for text, surfaces and borders; kaki is primary, seiji secondary. Status colours stay on their own ramps. Dark: text at 300, surfaces at 700, the 400 for borders and subtle washes. Light mirrors it: text at 700, surfaces at 200, the 500 for washes. The Foundations/Palette story gates every pair below at AA, in both modes. */
 
   /* text */
-  --color-text: var(--color-sumi-50);
-  --color-text-inverted: var(--color-sumi-950);
-  --color-text-toned: var(--color-sumi-200);
+  --color-text: light-dark(var(--color-sumi-950), var(--color-sumi-50));
+  --color-text-inverted: light-dark(var(--color-sumi-50), var(--color-sumi-950));
+  --color-text-toned: light-dark(var(--color-sumi-800), var(--color-sumi-200));
   /* Secondary text, placeholders and disabled labels alike. The dimmest step that still clears AA on every surface, so there is no room for a dimmer tier. */
-  --color-text-muted: var(--color-sumi-300);
+  --color-text-muted: light-dark(var(--color-sumi-600), var(--color-sumi-300));
 
-  /* backgrounds / surfaces, darkest to lightest: sunken → lowered → bg → elevated → accented. */
-  --color-bg: var(--color-sumi-850);
-  --color-bg-lowered: var(--color-sumi-900);
-  --color-bg-elevated: var(--color-sumi-800);
-  --color-bg-accented: var(--color-sumi-700);
+  /* backgrounds / surfaces. Dark, darkest to lightest: sunken → lowered → bg → elevated → accented. Light keeps the elevation order (up is lighter, so elevated is white) and sends sunken and accented the other way: both are departures from the page, which in light mode means darker. */
+  --color-bg: light-dark(var(--color-sumi-50), var(--color-sumi-850));
+  --color-bg-lowered: light-dark(var(--color-sumi-100), var(--color-sumi-900));
+  --color-bg-elevated: light-dark(var(--color-white), var(--color-sumi-800));
+  --color-bg-accented: light-dark(var(--color-sumi-200), var(--color-sumi-700));
 
   /* Below every other surface: the ground a code sample sits on, so it reads as inset even when the surface around it is already lowered. */
-  --color-bg-sunken: var(--color-sumi-950);
+  --color-bg-sunken: light-dark(var(--color-sumi-150), var(--color-sumi-950));
 
-  /* depth: the ground of a backgrounded element — a field, a checkbox box, a code well, a tree's active branch — recessed into whatever surface it sits on. Always neutral: colour is spent on what the user acts on, never on the well it happens in. muted is the step for hover, disabled and pressed-in. */
-  --color-bg-inset: var(--color-sumi-950);
-  --color-bg-inset-muted: var(--color-sumi-800);
+  /* depth: the ground of a backgrounded element — a field, a checkbox box, a code well, a tree's active branch — recessed into whatever surface it sits on. Always neutral: colour is spent on what the user acts on, never on the well it happens in. muted is the step for hover, disabled and pressed-in. Light mode recesses by its border, on white. */
+  --color-bg-inset: light-dark(var(--color-white), var(--color-sumi-950));
+  --color-bg-inset-muted: light-dark(var(--color-sumi-100), var(--color-sumi-800));
 
   /* borders */
-  --color-border: var(--color-sumi-700);
-  --color-border-muted: var(--color-sumi-800);
+  --color-border: light-dark(var(--color-sumi-200), var(--color-sumi-700));
+  --color-border-muted: light-dark(var(--color-sumi-100), var(--color-sumi-800));
   /* Clears 3:1 up to bg-elevated, for rings and boundaries that must be seen. */
-  --color-border-highlight: var(--color-sumi-400);
-  --color-border-danger: var(--color-red-400);
+  --color-border-highlight: light-dark(var(--color-sumi-500), var(--color-sumi-400));
+  --color-border-danger: light-dark(var(--color-kurenai-600), var(--color-kurenai-400));
 
-  /* primary: kaki, the curtain's own sample */
-  --color-primary: var(--color-kaki-500);
+  /* primary: kaki. Dark mode paints the curtain's own sample; light mode a step and a half deeper, the lightest kaki that still holds 3:1 on white. */
+  --color-primary: light-dark(var(--color-kaki-700), var(--color-kaki-500));
 
   /* Primary as text, focus ring or indicator on any surface. */
-  --color-primary-highlight: var(--color-kaki-400);
+  --color-primary-highlight: light-dark(var(--color-kaki-800), var(--color-kaki-400));
 
   /* A dim primary wash that body text can sit on (selection, tinted rows). */
-  --color-primary-muted: color-mix(in srgb, var(--color-kaki-500) 30%, var(--color-sumi-900));
-  --color-primary-disabled: var(--color-kaki-800);
+  --color-primary-muted: light-dark(
+    color-mix(in oklab, var(--color-kaki-400) 30%, var(--color-white)),
+    color-mix(in oklab, var(--color-kaki-500) 30%, var(--color-sumi-900))
+  );
+  --color-primary-disabled: light-dark(var(--color-kaki-200), var(--color-kaki-800));
 
-  /* Text and icons on a primary fill: kaki stays mid-lightness, so dark ink always wins on it. */
-  --color-on-primary: var(--color-sumi-950);
+  /* Text and icons on a primary fill: dark ink on the mid-lightness dark-mode kaki, white on the deeper light-mode one. */
+  --color-on-primary: light-dark(var(--color-white), var(--color-sumi-950));
 
-  /* Hover and press fills, under --color-on-primary. Both lighten, away from the dark label, so they only gain contrast. */
-  --color-primary-hover: var(--color-kaki-400);
-  --color-primary-active: var(--color-kaki-300);
+  /* Hover and press fills, under --color-on-primary. Both move away from the label (lighter under dark ink, deeper under white), so they only gain contrast. */
+  --color-primary-hover: light-dark(var(--color-kaki-800), var(--color-kaki-400));
+  --color-primary-active: light-dark(var(--color-kaki-900), var(--color-kaki-300));
 
-  /* The primary button: the accent itself as the label, on the deepest tone of it, the same reading as an active navigation tab. Hover lifts the fill a step and the label with it; press sinks it to near-black. */
-  --color-primary-surface: var(--color-kaki-900);
-  --color-primary-surface-hover: var(--color-kaki-800);
-  --color-primary-surface-active: var(--color-kaki-950);
-  --color-on-primary-surface: var(--color-kaki-400);
-  --color-on-primary-surface-hover: var(--color-kaki-200);
+  /* The primary button: a deep persimmon fill under a white label, the same in both modes so the main action reads the same everywhere. Hover lifts the fill in dark mode (only as far as the label's 4.5:1 allows) and deepens it in light; press sinks it in both. */
+  --color-primary-surface: var(--color-kaki-700);
+  --color-primary-surface-hover: light-dark(
+    var(--color-kaki-800),
+    color-mix(in oklab, var(--color-kaki-700) 65%, var(--color-kaki-600))
+  );
+  --color-primary-surface-active: light-dark(var(--color-kaki-900), var(--color-kaki-800));
+  --color-on-primary-surface: var(--color-white);
+  --color-on-primary-surface-hover: var(--color-white);
 
-  /* secondary: the fill of a secondary action (secondary buttons, a pressed toggle, the current page), drawn from seiji; hover lightens a step. Fields use the neutral depth roles instead. */
-  --color-secondary: var(--color-seiji-900);
-  --color-secondary-muted: var(--color-seiji-800);
+  /* secondary: the fill of a secondary action (secondary buttons, a pressed toggle, the current page), drawn from seiji; hover moves a step toward the page's contrast. Fields use the neutral depth roles instead. */
+  --color-secondary: light-dark(var(--color-seiji-100), var(--color-seiji-900));
+  --color-secondary-muted: light-dark(var(--color-seiji-200), var(--color-seiji-800));
+
+  /* Text and icons on a secondary fill, when they take the hue rather than --color-text: the secondary button's label. */
+  --color-on-secondary: light-dark(var(--color-seiji-900), var(--color-seiji-100));
 
   /* Secondary as a stroke or indicator on any surface, the seiji counterpart of --color-primary. */
-  --color-secondary-highlight: var(--color-seiji-500);
+  --color-secondary-highlight: light-dark(var(--color-seiji-600), var(--color-seiji-500));
+
+  /* A thin catch of light along a filled control's top edge, so a solid button reads as raised rather than printed. */
+  --color-sheen: light-dark(oklch(from var(--color-white) l c h / 22%), oklch(from var(--color-white) l c h / 12%));
 
   /* neutral */
-  --color-neutral-text: var(--color-sumi-300);
+  --color-neutral-text: light-dark(var(--color-sumi-600), var(--color-sumi-300));
+
+  /* Status, on four dentō-shoku dyes: kurenai (safflower crimson) danger, kariyasu (grass yellow) warning, moegi (young-shoot green) success, hanada (indigo-dye blue) info. A surface carries text in both modes: a deep dye under white in dark, a pale one under ink in light. */
 
   /* danger */
-  --color-danger-text: var(--color-red-300);
-  --color-danger-surface: var(--color-red-700);
-  --color-danger-surface-subtle: color-mix(in srgb, var(--color-red-400) 40%, transparent);
+  --color-danger-text: light-dark(var(--color-kurenai-700), var(--color-kurenai-300));
+  --color-danger-surface: light-dark(var(--color-kurenai-200), var(--color-kurenai-700));
+  --color-danger-surface-subtle: light-dark(
+    oklch(from var(--color-kurenai-500) l c h / 32%),
+    oklch(from var(--color-kurenai-400) l c h / 32%)
+  );
 
-  /* warning: yellow, not amber, so it cannot be mistaken for the primary. Text is a step lighter than the other statuses: yellow at 300 reads as mustard. */
-  --color-warning-text: var(--color-yellow-200);
-  --color-warning-surface: var(--color-yellow-700);
-  --color-warning-surface-subtle: color-mix(in srgb, var(--color-yellow-400) 32%, transparent);
+  /* warning: kariyasu yellow, not amber, so it cannot be mistaken for the primary. Dark-mode text is a step lighter than the other statuses: yellow at 300 reads as mustard. */
+  --color-warning-text: light-dark(var(--color-kariyasu-800), var(--color-kariyasu-200));
+  --color-warning-surface: light-dark(var(--color-kariyasu-200), var(--color-kariyasu-800));
+  --color-warning-surface-subtle: light-dark(
+    oklch(from var(--color-kariyasu-500) l c h / 32%),
+    oklch(from var(--color-kariyasu-400) l c h / 32%)
+  );
 
   /* success */
-  --color-success-text: var(--color-green-300);
-  --color-success-surface: var(--color-green-700);
-  --color-success-surface-subtle: color-mix(in srgb, var(--color-green-400) 32%, transparent);
+  --color-success-text: light-dark(var(--color-moegi-700), var(--color-moegi-300));
+  --color-success-surface: light-dark(var(--color-moegi-200), var(--color-moegi-700));
+  --color-success-surface-subtle: light-dark(
+    oklch(from var(--color-moegi-500) l c h / 32%),
+    oklch(from var(--color-moegi-400) l c h / 32%)
+  );
 
   /* info */
-  --color-info-text: var(--color-blue-300);
-  --color-info-surface: var(--color-blue-700);
-  --color-info-surface-subtle: color-mix(in srgb, var(--color-blue-400) 24%, transparent);
+  --color-info-text: light-dark(var(--color-hanada-700), var(--color-hanada-300));
+  --color-info-surface: light-dark(var(--color-hanada-200), var(--color-hanada-700));
+  --color-info-surface-subtle: light-dark(
+    oklch(from var(--color-hanada-500) l c h / 24%),
+    oklch(from var(--color-hanada-400) l c h / 24%)
+  );
 
   /* Text and icons on a status surface (alerts, badges), and on the neutral badge's bg-accented. */
-  --color-on-status: var(--color-white);
+  --color-on-status: light-dark(var(--color-sumi-950), var(--color-white));
 
-  /* The sliding knob of an unchecked switch, on its bg-accented track. Checked, the track turns primary and the knob on-primary. */
-  --color-control-thumb: var(--color-white);
+  /* The sliding knob of an unchecked switch, on its bg-accented track: white on the dark track, ink-grey on the light one. Checked, the track turns primary and the knob on-primary. */
+  --color-control-thumb: light-dark(var(--color-sumi-600), var(--color-white));
 
-  /* tags: decorative hues for telling one tag from another, not status. Each hue's tag paints its surface as a wash of the hue and its label in the -text step; blue labels in --color-text-toned. */
-  --color-tag-blue: var(--color-blue-400);
-  --color-tag-stone: var(--color-stone-300);
-  --color-tag-stone-text: var(--color-stone-200);
-  --color-tag-purple: var(--color-purple-300);
-  --color-tag-purple-text: var(--color-purple-100);
-  --color-tag-forest: var(--color-forest-300);
-  --color-tag-forest-text: var(--color-forest-100);
-  --color-tag-mint: var(--color-mint-300);
-  --color-tag-mint-text: var(--color-mint-100);
-  /* A solid mint fill an icon sits on (the tree's leaf chip). */
-  --color-tag-mint-strong: var(--color-mint-600);
-  --color-tag-magenta: var(--color-magenta-300);
-  --color-tag-magenta-text: var(--color-magenta-100);
+  /* tags: decorative hues for telling one tag from another, not status. Each hue's tag paints its surface as a wash of the hue and its label in the -text step; blue labels in --color-text-toned. Dark washes a light step under a pale label; light washes a mid step under a deep one. */
+  --color-tag-blue: light-dark(var(--color-ruri-500), var(--color-ruri-400));
+  --color-tag-stone: light-dark(var(--color-haizakura-500), var(--color-haizakura-300));
+  --color-tag-stone-text: light-dark(var(--color-haizakura-800), var(--color-haizakura-100));
+  --color-tag-purple: light-dark(var(--color-fuji-500), var(--color-fuji-300));
+  --color-tag-purple-text: light-dark(var(--color-fuji-800), var(--color-fuji-100));
+  --color-tag-forest: light-dark(var(--color-koke-500), var(--color-koke-300));
+  --color-tag-forest-text: light-dark(var(--color-koke-800), var(--color-koke-100));
+  --color-tag-mint: light-dark(var(--color-byakugun-500), var(--color-byakugun-300));
+  --color-tag-mint-text: light-dark(var(--color-byakugun-800), var(--color-byakugun-100));
+  /* A solid mint fill an icon sits on (the tree's leaf chip), under the icon's --color-text. */
+  --color-tag-mint-strong: light-dark(var(--color-byakugun-300), var(--color-byakugun-600));
+  --color-tag-magenta: light-dark(var(--color-botan-500), var(--color-botan-300));
+  --color-tag-magenta-text: light-dark(var(--color-botan-800), var(--color-botan-100));
   /* The selected-tag ring is the hue itself everywhere but magenta. */
-  --color-tag-magenta-ring: var(--color-magenta-400);
-  --color-tag-brown: var(--color-brown-300);
-  --color-tag-brown-text: var(--color-brown-100);
-
-  /* chart series, in order. Chart.js reads these off the canvas's element with getPropertyValue and hands them to the canvas, so each must resolve to a plain colour: no light-dark(), no color-mix(). */
-  --color-chart-series-1: var(--color-blue-500);
-  --color-chart-series-2: var(--color-green-400);
-  --color-chart-series-3: var(--color-yellow-300);
-  --color-chart-series-4: var(--color-red-300);
-  --color-chart-series-5: var(--color-purple-300);
+  --color-tag-magenta-ring: light-dark(var(--color-botan-600), var(--color-botan-400));
+  --color-tag-brown: light-dark(var(--color-kuri-500), var(--color-kuri-300));
+  --color-tag-brown-text: light-dark(var(--color-kuri-800), var(--color-kuri-100));
 
   /* ghost */
-  --color-ghost-surface-subtle: color-mix(in srgb, var(--color-kaki-500) 8%, transparent);
+  --color-ghost-surface-subtle: oklch(from var(--color-kaki-500) l c h / 8%);
 
-  /* shadow */
-  --color-shadow: color-mix(in srgb, var(--color-sumi-950) 80%, transparent);
+  /* shadow: light mode needs far less of it to read as lift. */
+  --color-shadow: light-dark(
+    oklch(from var(--color-sumi-950) l c h / 18%),
+    oklch(from var(--color-sumi-950) l c h / 80%)
+  );
 
   /* ============================ TYPOGRAPHY =========================== */
 

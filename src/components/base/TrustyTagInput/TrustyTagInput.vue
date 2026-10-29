@@ -140,7 +140,7 @@ const model = defineModel<string[]>({ default: () => [] })
   font-weight: var(--font-weight-semibold);
   line-height: var(--line-height-snug);
   color: var(--color-text-toned);
-  background-color: color-mix(in srgb, var(--trusty-tag-input-hue) 24%, transparent);
+  background-color: color-mix(in oklab, var(--trusty-tag-input-hue) 24%, transparent);
   border-radius: var(--radius-sm);
 }
 

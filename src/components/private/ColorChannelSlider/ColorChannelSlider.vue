@@ -64,7 +64,7 @@ function onUpdate(value: string | Color) {
 }
 
 .color-channel-slider[data-channel='alpha'] {
-  --color-channel-slider-check: color-mix(in srgb, var(--color-text) 10%, transparent);
+  --color-channel-slider-check: color-mix(in oklab, var(--color-text) 10%, transparent);
 
   background-image: repeating-conic-gradient(var(--color-channel-slider-check) 0 25%, transparent 0 50%);
   background-size: var(--space-sm) var(--space-sm);

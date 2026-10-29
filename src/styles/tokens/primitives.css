@@ -2,9 +2,11 @@
 
    Components must NEVER reference these directly — alias them behind a role-based token in semantic.css and use that instead. token-tiers.spec.ts enforces this.
 
-   sumi, kaki and seiji are the theme, vendored from the kaki project (joshiki-maku curtain dyes): sumi the ink neutrals, kaki the persimmon orange (primary), seiji the pine green (secondary). 500 is the value sampled from the curtain for kaki and seiji. sumi-850 is ours: the five-surface ladder needs a step between 800 and 900.
+   sumi, kaki and seiji are the theme, vendored from the kaki project (joshiki-maku curtain dyes): sumi the ink neutrals, kaki the persimmon orange (primary), seiji the pine green (secondary). 500 is the value sampled from the curtain for kaki and seiji. sumi-850 and sumi-150 are ours: each mode's five-surface ladder needs a step the curtain ramp lacks.
 
-   The status and tag hues sit on their own fixed ramps, all oklch. There is no orange: orange is the primary, and warning is yellow so it cannot be mistaken for it.
+   The status and tag hues are traditional Japanese dye colours (dentō-shoku), each named for its dye and sampled from its customary swatch, then laid on the same oklch lightness ladder: kurenai, kariyasu, moegi and hanada are the four statuses; ruri, haizakura, fuji, koke, byakugun, botan and kuri the tags. There is no orange: orange is the primary, and warning is kariyasu yellow (h 97, 52° clear of kaki) so it cannot be mistaken for it. Status ramps are whole, for the Palette story; tag ramps carry only the steps semantic.css aliases.
+
+   Values are mode-agnostic. semantic.css picks a step per colour scheme with light-dark().
 
    Loaded via the token barrel (tokens.css) → styles/main.css. */
 
@@ -12,6 +14,7 @@
   /* sumi: ink / near-black, faint cool bias */
   --color-sumi-50: oklch(97% 0.004 250);
   --color-sumi-100: oklch(93% 0.006 250);
+  --color-sumi-150: oklch(89% 0.008 250);
   --color-sumi-200: oklch(85% 0.01 250);
   --color-sumi-300: oklch(74% 0.014 250);
   --color-sumi-400: oklch(62% 0.018 250);
@@ -49,88 +52,104 @@
   --color-seiji-900: oklch(23% 0.045 165);
   --color-seiji-950: oklch(16% 0.03 165);
 
-  /* blue: h 250, C 0.15 */
-  --color-blue-50: oklch(99.3% 0.003 248);
-  --color-blue-100: oklch(93.9% 0.03 250);
-  --color-blue-200: oklch(83.5% 0.084 249);
-  --color-blue-300: oklch(73.4% 0.14 250);
-  --color-blue-400: oklch(64.5% 0.132 250);
-  --color-blue-500: oklch(56.3% 0.113 250);
-  --color-blue-600: oklch(48.5% 0.099 250);
-  --color-blue-700: oklch(40.7% 0.082 250);
-  --color-blue-800: oklch(32.5% 0.065 250);
-  --color-blue-900: oklch(21.7% 0.043 250);
-  --color-blue-950: oklch(9.7% 0.022 259);
+  /* ─── status ─── */
+  /* kurenai 紅: safflower crimson, danger — h 16, sampled from #CB1B45 */
+  --color-kurenai-50: oklch(97.5% 0.012 16);
+  --color-kurenai-100: oklch(94% 0.029 16);
+  --color-kurenai-200: oklch(87% 0.068 16);
+  --color-kurenai-300: oklch(78% 0.126 16);
+  --color-kurenai-400: oklch(68% 0.2 16);
+  --color-kurenai-500: oklch(59% 0.2 16);
+  --color-kurenai-600: oklch(50.5% 0.188 16);
+  --color-kurenai-700: oklch(42% 0.163 16);
+  --color-kurenai-800: oklch(34% 0.132 16);
+  --color-kurenai-900: oklch(25% 0.098 16);
+  --color-kurenai-950: oklch(17% 0.067 16);
 
-  /* red: h 25, C 0.17 */
-  --color-red-50: oklch(99.3% 0.003 39);
-  --color-red-100: oklch(93.8% 0.031 25);
-  --color-red-200: oklch(83.6% 0.089 25);
-  --color-red-300: oklch(73.5% 0.16 25);
-  --color-red-400: oklch(64.6% 0.15 25);
-  --color-red-500: oklch(56.3% 0.13 25);
-  --color-red-600: oklch(48.5% 0.112 25);
-  --color-red-700: oklch(40.7% 0.094 25);
-  --color-red-800: oklch(32.4% 0.075 24);
-  --color-red-900: oklch(21.8% 0.048 26);
-  --color-red-950: oklch(9.7% 0.028 24);
+  /* kariyasu 刈安: kariyasu-grass yellow, warning — h 97, sampled from #E9CD4C */
+  --color-kariyasu-50: oklch(97.5% 0.018 97);
+  --color-kariyasu-100: oklch(94% 0.045 97);
+  --color-kariyasu-200: oklch(87% 0.087 97);
+  --color-kariyasu-300: oklch(78% 0.129 97);
+  --color-kariyasu-400: oklch(68% 0.136 97);
+  --color-kariyasu-500: oklch(59% 0.118 97);
+  --color-kariyasu-600: oklch(50.5% 0.101 97);
+  --color-kariyasu-700: oklch(42% 0.084 97);
+  --color-kariyasu-800: oklch(34% 0.068 97);
+  --color-kariyasu-900: oklch(25% 0.05 97);
+  --color-kariyasu-950: oklch(17% 0.035 97);
 
-  /* green: h 150, C 0.15 */
-  --color-green-50: oklch(99.2% 0.003 146);
-  --color-green-100: oklch(93.7% 0.038 150);
-  --color-green-200: oklch(83.6% 0.112 150);
-  --color-green-300: oklch(73.5% 0.15 150);
-  --color-green-400: oklch(64.6% 0.132 150);
-  --color-green-500: oklch(56.4% 0.115 150);
-  --color-green-600: oklch(48.4% 0.098 150);
-  --color-green-700: oklch(40.8% 0.083 150);
-  --color-green-800: oklch(32.4% 0.066 150);
-  --color-green-900: oklch(21.9% 0.044 150);
-  --color-green-950: oklch(9.6% 0.02 144);
+  /* moegi 萌黄: young-shoot green, success — h 128, sampled from #7BA23F */
+  --color-moegi-50: oklch(97.5% 0.017 128);
+  --color-moegi-100: oklch(94% 0.042 128);
+  --color-moegi-200: oklch(87% 0.081 128);
+  --color-moegi-300: oklch(78% 0.12 128);
+  --color-moegi-400: oklch(68% 0.14 128);
+  --color-moegi-500: oklch(59% 0.14 128);
+  --color-moegi-600: oklch(50.5% 0.128 128);
+  --color-moegi-700: oklch(42% 0.107 128);
+  --color-moegi-800: oklch(34% 0.087 128);
+  --color-moegi-900: oklch(25% 0.064 128);
+  --color-moegi-950: oklch(17% 0.044 128);
 
-  /* yellow: h 100, C 0.15 — 55° clear of kaki (h 45) */
-  --color-yellow-50: oklch(99.3% 0.004 106);
-  --color-yellow-100: oklch(93.8% 0.04 101);
-  --color-yellow-200: oklch(83.6% 0.112 100);
-  --color-yellow-300: oklch(73.5% 0.15 100);
-  --color-yellow-400: oklch(64.4% 0.131 100);
-  --color-yellow-500: oklch(56.3% 0.114 100);
-  --color-yellow-600: oklch(48.6% 0.099 101);
-  --color-yellow-700: oklch(40.7% 0.082 100);
-  --color-yellow-800: oklch(32.4% 0.066 100);
-  --color-yellow-900: oklch(21.7% 0.043 99);
-  --color-yellow-950: oklch(9.7% 0.02 99);
+  /* hanada 縹: indigo-dye blue, info — h 236, sampled from #006284 */
+  --color-hanada-50: oklch(97.5% 0.013 236);
+  --color-hanada-100: oklch(94% 0.032 236);
+  --color-hanada-200: oklch(87% 0.07 236);
+  --color-hanada-300: oklch(78% 0.103 236);
+  --color-hanada-400: oklch(68% 0.12 236);
+  --color-hanada-500: oklch(59% 0.12 236);
+  --color-hanada-600: oklch(50.5% 0.105 236);
+  --color-hanada-700: oklch(42% 0.088 236);
+  --color-hanada-800: oklch(34% 0.071 236);
+  --color-hanada-900: oklch(25% 0.053 236);
+  --color-hanada-950: oklch(17% 0.036 236);
 
-  /* ─── extended palette ───
-     Tag hues, for telling one tag from another at a glance. Decorative, not
-     status: semantic.css aliases them as --color-tag-*. Only the steps a
-     design uses are here; text is 100 (stone 200), the hue 300. */
+  /* ─── tags ───
+     Decorative, not status: semantic.css aliases them as --color-tag-*. Dark mode washes the 300 and labels in the 100; light mode washes the 500 and labels in the 800. */
 
-  /* stone: h 30, C 0.014 */
-  --color-stone-200: oklch(83.6% 0.01 33);
-  --color-stone-300: oklch(73.5% 0.014 29);
+  /* ruri 瑠璃: lapis blue — h 254, sampled from #005CAF */
+  --color-ruri-400: oklch(68% 0.15 254);
+  --color-ruri-500: oklch(59% 0.15 254);
 
-  /* purple: h 300, C 0.14 */
-  --color-purple-100: oklch(93.9% 0.034 300);
-  --color-purple-300: oklch(73.6% 0.139 300);
+  /* haizakura 灰桜: ashen cherry, warm grey — h 47, sampled from #D7C4BB */
+  --color-haizakura-100: oklch(94% 0.009 47);
+  --color-haizakura-300: oklch(78% 0.026 47);
+  --color-haizakura-500: oklch(59% 0.03 47);
+  --color-haizakura-800: oklch(34% 0.021 47);
 
-  /* forest: h 125, C 0.11 */
-  --color-forest-100: oklch(93.8% 0.028 125);
-  --color-forest-300: oklch(73.4% 0.11 125);
+  /* fuji 藤: wisteria — h 290, sampled from #8B81C3 */
+  --color-fuji-100: oklch(94% 0.03 290);
+  --color-fuji-300: oklch(78% 0.103 290);
+  --color-fuji-500: oklch(59% 0.12 290);
+  --color-fuji-800: oklch(34% 0.084 290);
 
-  /* mint: h 180, C 0.09 */
-  --color-mint-100: oklch(93.8% 0.023 180);
-  --color-mint-300: oklch(73.5% 0.09 180);
-  --color-mint-600: oklch(48.5% 0.059 180);
+  /* koke 苔: moss — h 113, sampled from #838A2D */
+  --color-koke-100: oklch(94% 0.036 113);
+  --color-koke-300: oklch(78% 0.103 113);
+  --color-koke-500: oklch(59% 0.12 113);
+  --color-koke-800: oklch(34% 0.074 113);
 
-  /* magenta: h 340, C 0.15 — 400 is the selected-tag ring; the one hue whose ring is not its own mid step. */
-  --color-magenta-100: oklch(93.9% 0.039 340);
-  --color-magenta-300: oklch(73.5% 0.15 340);
-  --color-magenta-400: oklch(64.5% 0.133 340);
+  /* byakugun 白群: pale azurite, mint — h 198, sampled from #78C2C4 */
+  --color-byakugun-100: oklch(94% 0.027 198);
+  --color-byakugun-300: oklch(78% 0.077 198);
+  --color-byakugun-500: oklch(59% 0.09 198);
+  --color-byakugun-600: oklch(50.5% 0.083 198);
+  --color-byakugun-800: oklch(34% 0.056 198);
 
-  /* brown: h 50, C 0.07 */
-  --color-brown-100: oklch(93.7% 0.018 49);
-  --color-brown-300: oklch(73.5% 0.07 50);
+  /* botan 牡丹: peony — h 346, sampled from #C1328E */
+  --color-botan-100: oklch(94% 0.036 346);
+  --color-botan-300: oklch(78% 0.156 346);
+  --color-botan-400: oklch(68% 0.19 346);
+  --color-botan-500: oklch(59% 0.19 346);
+  --color-botan-600: oklch(50.5% 0.179 346);
+  --color-botan-800: oklch(34% 0.133 346);
+
+  /* kuri 栗: chestnut — h 50, sampled from #6A4028 */
+  --color-kuri-100: oklch(94% 0.021 50);
+  --color-kuri-300: oklch(78% 0.06 50);
+  --color-kuri-500: oklch(59% 0.07 50);
+  --color-kuri-800: oklch(34% 0.049 50);
 
   /* white */
   --color-white: oklch(100% 0 0);

@@ -12,7 +12,7 @@ import { EditorView } from '@codemirror/view'
 export const MODIFIER_HELD_CLASS = 'cm-md-modifier-held'
 
 /** #3f75df at 40%, spelled out because there is no semantic token for a selection tint. */
-const SELECTION_TINT = 'color-mix(in srgb, #3f75df 40%, transparent)'
+const SELECTION_TINT = 'color-mix(in oklab, #3f75df 40%, transparent)'
 
 export const markdownEditorTheme = EditorView.theme({
   '&': {

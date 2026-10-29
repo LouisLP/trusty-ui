@@ -12,24 +12,27 @@ import {
   TrustyTextInput,
 } from '../../index'
 
-// The semantic colour roles, grouped as semantic.css groups them. A swatch resolves its token live, so the page shows whatever primitives.css holds.
+// The semantic colour roles, grouped as semantic.css groups them. A swatch resolves its token live, in the page's colour scheme, so the page shows whatever primitives.css holds.
 const GROUPS: [group: string, tokens: string[]][] = [
   ['Text', ['text', 'text-toned', 'text-muted', 'text-inverted']],
   ['Surfaces', ['bg-sunken', 'bg-lowered', 'bg', 'bg-elevated', 'bg-accented']],
   ['Depth', ['bg-inset', 'bg-inset-muted']],
   ['Borders', ['border-muted', 'border', 'border-highlight', 'border-danger']],
   ['Primary', ['primary', 'primary-hover', 'primary-active', 'on-primary', 'primary-highlight', 'primary-muted', 'primary-disabled', 'primary-surface', 'primary-surface-hover', 'primary-surface-active', 'on-primary-surface', 'on-primary-surface-hover']],
-  ['Secondary', ['secondary', 'secondary-muted']],
+  ['Secondary', ['secondary', 'secondary-muted', 'on-secondary', 'secondary-highlight']],
   ['Status', ['danger-text', 'danger-surface', 'warning-text', 'warning-surface', 'success-text', 'success-surface', 'info-text', 'info-surface', 'on-status']],
   ['Controls', ['control-thumb']],
   ['Tags', ['tag-blue', 'tag-stone', 'tag-stone-text', 'tag-purple', 'tag-purple-text', 'tag-forest', 'tag-forest-text', 'tag-mint', 'tag-mint-text', 'tag-mint-strong', 'tag-magenta', 'tag-magenta-text', 'tag-magenta-ring', 'tag-brown', 'tag-brown-text']],
-  ['Chart series', ['chart-series-1', 'chart-series-2', 'chart-series-3', 'chart-series-4', 'chart-series-5']],
 ]
 
 // The theme: sumi neutrals, kaki primary, seiji secondary.
 const RAMPS = ['sumi', 'kaki', 'seiji']
-const STATUS_RAMPS = ['red', 'yellow', 'green', 'blue']
+// The dentō-shoku status dyes: kurenai danger, kariyasu warning, moegi success, hanada info.
+const STATUS_RAMPS = ['kurenai', 'kariyasu', 'moegi', 'hanada']
 const STEPS = [50, 100, 200, 300, 400, 500, 600, 700, 800, 900, 950]
+
+type Scheme = 'light' | 'dark'
+const SCHEMES: Scheme[] = ['light', 'dark']
 
 interface Pair { fg: string, bg: string, min: 3 | 4.5 }
 
@@ -43,6 +46,7 @@ const PAIRS: Pair[] = [
   ...['primary', 'primary-hover', 'primary-active'].map(bg => ({ fg: 'on-primary', bg, min: 4.5 as const })),
   ...['primary-surface', 'primary-surface-active'].map(bg => ({ fg: 'on-primary-surface', bg, min: 4.5 as const })),
   { fg: 'on-primary-surface-hover', bg: 'primary-surface-hover', min: 4.5 },
+  ...['secondary', 'secondary-muted'].map(bg => ({ fg: 'on-secondary', bg, min: 4.5 as const })),
   ...['danger-surface', 'warning-surface', 'success-surface', 'info-surface', 'primary-muted'].map(bg => ({ fg: 'text', bg, min: 4.5 as const })),
   ...['danger-surface', 'warning-surface', 'success-surface', 'info-surface', 'bg-accented'].map(bg => ({ fg: 'on-status', bg, min: 4.5 as const })),
   // The checked switch is on-primary on primary, gated above.
@@ -52,9 +56,11 @@ const PAIRS: Pair[] = [
 
 type Rgb = [number, number, number]
 
-// Resolve a custom property to sRGB by letting the browser compute it: covers var() chains, light-dark() and color-mix(). The palette is oklch, which computes as oklch(); mixing in srgb makes it compute as color(srgb …) instead.
-function resolve(token: string): Rgb {
+// Resolve a custom property to sRGB by letting the browser compute it: covers var() chains, light-dark() and color-mix(). light-dark() picks its half by the probe's own color-scheme, so pass one to measure that mode, or none for the page's. The palette is oklch, which computes as oklch(); mixing in srgb makes it compute as color(srgb …) instead.
+function resolve(token: string, scheme?: Scheme): Rgb {
   const probe = document.createElement('span')
+  if (scheme)
+    probe.style.colorScheme = scheme
   probe.style.color = `color-mix(in srgb, var(${token}) 100%, transparent)`
   document.body.append(probe)
   const computed = getComputedStyle(probe).color
@@ -114,18 +120,19 @@ const Swatches = defineComponent({
 
 const ContrastTable = defineComponent({
   setup() {
-    const rows = ref<(Pair & { ratio: number })[]>([])
+    const rows = ref<(Pair & { scheme: Scheme, ratio: number })[]>([])
     onMounted(() => {
-      rows.value = PAIRS.map(p => ({ ...p, ratio: contrast(resolve(`--color-${p.fg}`), resolve(`--color-${p.bg}`)) }))
+      rows.value = SCHEMES.flatMap(scheme => PAIRS.map(p => ({ ...p, scheme, ratio: contrast(resolve(`--color-${p.fg}`, scheme), resolve(`--color-${p.bg}`, scheme)) })))
     })
     const cell = (content: string | VNode, extra = '') => h('td', { style: `padding: var(--space-xs) var(--space-sm); border-block-end: var(--border-sm) solid var(--color-border); ${extra}` }, [content])
     return () => h('table', { style: `${label} border-collapse: collapse; margin: var(--space-lg);` }, [
-      h('thead', h('tr', ['sample', 'foreground', 'background', 'ratio', 'AA floor', 'result'].map(c => h('th', { style: 'text-align: start; padding: var(--space-xs) var(--space-sm);' }, c)))),
+      h('thead', h('tr', ['sample', 'mode', 'foreground', 'background', 'ratio', 'AA floor', 'result'].map(c => h('th', { style: 'text-align: start; padding: var(--space-xs) var(--space-sm);' }, c)))),
       h('tbody', rows.value.map(r => h('tr', { 'data-pass': String(r.ratio >= r.min) }, [
-        // A 3:1 pair is a fill or a ring, not text, so its sample is a bar: text there would trip axe's 4.5:1 text rule.
+        // A 3:1 pair is a fill or a ring, not text, so its sample is a bar: text there would trip axe's 4.5:1 text rule. The sample pins its row's scheme, so axe measures the same pair the ratio does.
         cell(r.min === 3
-          ? h('span', { style: `display: inline-block; padding: var(--space-xs) var(--space-sm); background: var(--color-${r.bg});` }, [h('span', { style: `display: block; inline-size: 3rem; block-size: var(--border-lg); background: var(--color-${r.fg});` })])
-          : h('span', { style: `padding: var(--space-2xs) var(--space-sm); color: var(--color-${r.fg}); background: var(--color-${r.bg});` }, 'Sample')),
+          ? h('span', { style: `display: inline-block; padding: var(--space-xs) var(--space-sm); color-scheme: ${r.scheme}; background: var(--color-${r.bg});` }, [h('span', { style: `display: block; inline-size: 3rem; block-size: var(--border-lg); background: var(--color-${r.fg});` })])
+          : h('span', { style: `padding: var(--space-2xs) var(--space-sm); color-scheme: ${r.scheme}; color: var(--color-${r.fg}); background: var(--color-${r.bg});` }, 'Sample')),
+        cell(r.scheme),
         cell(r.fg),
         cell(r.bg),
         cell(r.ratio.toFixed(2)),
@@ -165,7 +172,7 @@ const meta = {
     layout: 'fullscreen',
     docs: {
       description: {
-        component: 'Prototype for [#8](https://github.com/LouisLP/trusty-ui/issues/8) and [#18](https://github.com/LouisLP/trusty-ui/issues/18): every semantic colour role resolved live, the theme and status ramps, the contrast of every pair a component draws, and the components themselves on each surface. Retune a primitive and this page re-measures.',
+        component: 'Prototype for [#8](https://github.com/LouisLP/trusty-ui/issues/8) and [#18](https://github.com/LouisLP/trusty-ui/issues/18): every semantic colour role resolved live in the current scheme (flip it with the toolbar\'s dark-mode toggle), the theme and status ramps, the contrast of every pair a component draws in both schemes, and the components themselves on each surface. Retune a primitive and this page re-measures.',
       },
     },
   },
@@ -176,11 +183,11 @@ type Story = StoryObj<typeof meta>
 
 export const Roles: Story = { render: () => ({ components: { Swatches }, template: '<Swatches />' }) }
 
-/** Fails if any pair drops below its AA floor, which makes this story the palette gate: run `pnpm test:storybook` after retuning a colour. */
+/** Fails if any pair drops below its AA floor in either colour scheme, which makes this story the palette gate: run `pnpm test:storybook` after retuning a colour. */
 export const Contrast: Story = {
   render: () => ({ components: { ContrastTable }, template: '<ContrastTable />' }),
   play: async ({ canvasElement }) => {
-    await waitFor(() => expect(canvasElement.querySelectorAll('tbody tr').length).toBe(PAIRS.length))
+    await waitFor(() => expect(canvasElement.querySelectorAll('tbody tr').length).toBe(PAIRS.length * SCHEMES.length))
     const failures = [...canvasElement.querySelectorAll('tbody tr[data-pass="false"]')].map(tr => tr.textContent)
     await expect(failures).toEqual([])
   },

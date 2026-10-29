@@ -3,13 +3,14 @@
  *
  * Nothing here is exported from the library except `TrustyCodeLanguage`, the union both components take as a prop.
  *
- * The fine-grained core bundle: the JS regex engine (no WASM), one theme, and per-language grammars registered on demand. Both callers import this module dynamically, so Shiki stays out of bundles that never highlight anything.
+ * The fine-grained core bundle: the JS regex engine (no WASM), one theme per colour scheme, and per-language grammars registered on demand. Both callers import this module dynamically, so Shiki stays out of bundles that never highlight anything.
  */
 
 import type { HighlighterCore, ThemedToken } from 'shiki/core'
 import { createHighlighterCore } from 'shiki/core'
 import { createJavaScriptRegexEngine } from 'shiki/engine/javascript'
 import ayuMirage from 'shiki/themes/ayu-mirage.mjs'
+import githubLightDefault from 'shiki/themes/github-light-default.mjs'
 
 // The small language set the app actually uses. Extend the map, and thereby the TrustyCodeLanguage union, when a real need appears.
 const LANGUAGE_LOADERS = {
@@ -22,15 +23,18 @@ const LANGUAGE_LOADERS = {
 /** Languages the code components can label and highlight. */
 export type TrustyCodeLanguage = keyof typeof LANGUAGE_LOADERS
 
-// Ayu Mirage: orange and amber keywords that echo the accent, and every token colour but comments clears 4.5:1 on the sumi inset the code sits on.
-const THEME = ayuMirage.name ?? 'ayu-mirage'
+// One theme per colour scheme, emitted as light-dark() pairs so the code follows the page's scheme with no re-highlight. Dark is Ayu Mirage: orange and amber keywords that echo the accent, and every token colour but comments clears 4.5:1 on the sumi inset the code sits on. Light is GitHub Light Default: every token colour, comments included, clears 4.5:1 on the white inset.
+const THEMES = {
+  light: githubLightDefault.name ?? 'github-light-default',
+  dark: ayuMirage.name ?? 'ayu-mirage',
+}
 
 let highlighterPromise: Promise<HighlighterCore> | undefined
 
 function getHighlighter(): Promise<HighlighterCore> {
   highlighterPromise ??= createHighlighterCore({
     langs: [],
-    themes: [ayuMirage],
+    themes: [githubLightDefault, ayuMirage],
     // Forgiving: a pattern the JS engine can't compile degrades that token's highlighting instead of throwing for the whole block.
     engine: createJavaScriptRegexEngine({ forgiving: true }),
   })
@@ -51,14 +55,15 @@ export async function highlightToHtml(code: string, language: TrustyCodeLanguage
 
   return highlighter.codeToHtml(code, {
     lang: language,
-    theme: THEME,
+    themes: THEMES,
+    defaultColor: 'light-dark()',
     structure: 'inline',
   })
 }
 
-/** Tokenize `code` as `language`: one array of themed tokens per line, in document order, carrying the theme's colour and font style. The caller owns the rendering. */
+/** Tokenize `code` as `language`: one array of themed tokens per line, in document order, carrying the theme's colour (a `light-dark()` pair, in `htmlStyle.color`) and font style. The caller owns the rendering. */
 export async function tokenizeCode(code: string, language: TrustyCodeLanguage): Promise<ThemedToken[][]> {
   const highlighter = await loadLanguage(language)
 
-  return highlighter.codeToTokens(code, { lang: language, theme: THEME }).tokens
+  return highlighter.codeToTokens(code, { lang: language, themes: THEMES, defaultColor: 'light-dark()' }).tokens
 }

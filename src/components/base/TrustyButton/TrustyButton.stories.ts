@@ -46,10 +46,10 @@ The button. Variants cover fill style and colour role, and it carries at most on
 export default meta
 type Story = StoryObj<typeof meta>
 
-/** Default: the primary (solid) variant. */
+/** Default: the primary variant, a deep persimmon fill under a white label. */
 export const Primary: Story = {}
 
-/** Secondary solid fill. */
+/** Tonal seiji fill with a seiji label; hover and press stay green. */
 export const Secondary: Story = { args: { variant: 'secondary' } }
 
 /** Bordered, transparent fill. */
@@ -58,7 +58,7 @@ export const Outline: Story = { args: { variant: 'outline' } }
 /** Text-only, no fill or border at rest. */
 export const Ghost: Story = { args: { variant: 'ghost' } }
 
-/** Destructive actions (red solid fill) — e.g. the AlertDialog's Delete CTA. */
+/** Destructive actions (kurenai fill) — e.g. the AlertDialog's Delete CTA. */
 export const Danger: Story = { args: { variant: 'danger', label: 'Delete' } }
 
 /** Three sizes. */

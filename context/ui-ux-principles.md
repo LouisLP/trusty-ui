@@ -7,7 +7,7 @@ How a screen built on `@louislp/trusty-ui` should look and read. Written as dire
 so a **designer** and a **coding agent** apply them the same way. Attach this
 file whenever you prompt an agent to build or restyle a screen.
 
-**Scope:** desktop web, dark mode, screens **built with** the library. Authoring
+**Scope:** desktop web, light and dark mode, screens **built with** the library. Authoring
 the library itself is governed by its own `CONTEXT.md` and `README.md`.
 
 **Where the truth lives.** These are the conventions; the values and APIs are in
@@ -36,7 +36,11 @@ Break one of these and the screen is wrong, however good it looks.
    Skip it and you get the **unstyled render** — structure intact, every
    `var(--…)` unresolved. This is the classic failure; check it first when a
    screen looks inexplicably wrong.
-4. **Dark mode only.** One theme, no light variant, no `prefers-color-scheme`.
+4. **Both modes, from the tokens.** Every colour role is a `light-dark()` pair,
+   and `:root` declares `color-scheme: light dark`, so the page follows the OS.
+   To pin a mode, set `color-scheme` on `:root` (or any subtree) in the app's own
+   CSS. Never branch on `prefers-color-scheme` or write a second palette: a
+   colour that differs by mode belongs in `semantic.css`.
 5. **Desktop web only.** Multi-column layouts still respond — they reflow to the
    window — but no layout targets a phone.
 
@@ -142,15 +146,17 @@ Every colour comes from a semantic role in `semantic.css`:
   element — a field, a checkbox box, a code well — recessed into the surface
   around it. Always neutral sumi: a field is not an action, so it takes no hue.
 - **Secondary**: `--color-secondary`, `-muted`. The fill of a secondary action
-  (secondary buttons, a pressed toggle, the current page), drawn from seiji.
+  (secondary buttons, a pressed toggle, the current page), drawn from seiji,
+  plus `--color-on-secondary` for a label that takes the hue.
 - **Status**: `--color-{danger,warning,success,info}-{text,surface,surface-subtle}`,
   plus `--color-on-status` for text and icons on a status surface.
-- **Decorative**: `--color-tag-*` for tag hues, `--color-chart-series-1` …
-  `-5` for chart series, in that order. They tell things apart and mean nothing
-  on their own.
+- **Decorative**: `--color-tag-*` for tag hues. They tell things apart and
+  mean nothing on their own. Chart series colours are not semantic tokens: the
+  chart components own them, as `--trusty-chart-series-*`.
 - **Shadow**: `--color-shadow`, for the components that own a shadow (below).
 
-A handful more (`--color-control-thumb`, `--color-ghost-surface-subtle`) exist
+A handful more (`--color-control-thumb`, `--color-ghost-surface-subtle`,
+`--color-sheen`) exist
 for the one component that draws them. A screen has no use for them.
 
 Reaching past this list, into `primitives.css` (`--color-kaki-500`) or a raw
@@ -163,12 +169,12 @@ the current selection, the checked control and focus. It is not a decoration, a
 heading colour or a background wash; a screen painted orange has nothing left to
 point with.
 
-- **Text on a primary fill is `--color-on-primary`** (sumi ink),
-  never `--color-text`. White on kaki fails AA. On the tonal
-  `--color-primary-surface`, it is `--color-on-primary-surface`.
-- **Primary as text, a ring or an indicator on a dark surface is
+- **Text on a primary fill is `--color-on-primary`**, never `--color-text`:
+  ink on the dark-mode kaki, white on the deeper light-mode one. On the primary
+  button's `--color-primary-surface`, it is `--color-on-primary-surface`.
+- **Primary as text, a ring or an indicator on a surface is
   `--color-primary-highlight`.** `--color-primary` is the fill.
-- **Warning is yellow, not orange**, so it never reads as the accent. Don't
+- **Warning is kariyasu yellow, not orange**, so it never reads as the accent. Don't
   paint a warning in primary, or an action in warning.
 
 **Contrast.** Text meets WCAG AA's **4.5:1** against its background; icons,

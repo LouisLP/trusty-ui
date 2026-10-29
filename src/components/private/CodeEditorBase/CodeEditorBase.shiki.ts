@@ -41,8 +41,10 @@ const markCache = new Map<string, Decoration>()
 
 function markFor(token: ThemedToken): Decoration | undefined {
   const declarations: string[] = []
-  if (token.color) {
-    declarations.push(`color:${token.color}`)
+  // Two themes, so the colour arrives as a light-dark() pair in htmlStyle; `color` is the single-theme spelling.
+  const color = token.htmlStyle?.color ?? token.color
+  if (color) {
+    declarations.push(`color:${color}`)
   }
   if (token.fontStyle) {
     if (token.fontStyle & FONT_STYLE_ITALIC) {

@@ -91,7 +91,7 @@ const isIconOnly = computed(() =>
   /* Per-instance channels. Each variant paints the resting / -hover / -active / -disabled values below, and the single set of state rules swaps the matching channel in, which keeps every variant to one block. The defaults cover the non-solid variants; each variant overrides what differs. */
   --trusty-button-fg: var(--color-text);
   --trusty-button-fg-hover: var(--color-text);
-  --trusty-button-fg-active: var(--color-primary-highlight);
+  --trusty-button-fg-active: var(--color-text);
   --trusty-button-fg-disabled: var(--color-text-muted);
   --trusty-button-bg: transparent;
   --trusty-button-bg-hover: transparent;
@@ -101,6 +101,7 @@ const isIconOnly = computed(() =>
   --trusty-button-border-hover: transparent;
   --trusty-button-border-active: transparent;
   --trusty-button-border-disabled: transparent;
+  --trusty-button-shadow: none;
 
   display: inline-flex;
   gap: var(--space-sm);
@@ -111,7 +112,7 @@ const isIconOnly = computed(() =>
   padding-inline: var(--space-md);
   font-family: var(--font-family-sans);
   font-size: var(--font-size-sm);
-  font-weight: var(--font-weight-bold);
+  font-weight: var(--font-weight-semibold);
 
   /* single-line control: no extra leading, so flex centering isn't fighting the half-leading that otherwise makes short labels sit optically high */
   line-height: 1;
@@ -123,12 +124,14 @@ const isIconOnly = computed(() =>
   user-select: none;
   background-color: var(--trusty-button-bg);
   border: var(--border-md) solid var(--trusty-button-border);
-  border-radius: var(--radius-xs);
+  border-radius: var(--radius-sm);
+  box-shadow: var(--trusty-button-shadow);
   isolation: isolate;
   transition:
     color var(--duration-fast) ease-out,
     background-color var(--duration-fast) ease-out,
     border-color var(--duration-fast) ease-out,
+    box-shadow var(--duration-fast) ease-out,
     transform var(--duration-fast) ease-out;
 }
 
@@ -160,6 +163,8 @@ const isIconOnly = computed(() =>
 }
 
 /* ── variants: paint the channels (resting + per-state targets) ── */
+
+/* The one accent on the screen: a deep persimmon fill under a white label, raised by a sheen along its top edge. The label never changes colour; the fill alone carries hover and press. */
 .trusty-button[data-variant='primary'] {
   --trusty-button-fg: var(--color-on-primary-surface);
   --trusty-button-fg-hover: var(--color-on-primary-surface-hover);
@@ -168,29 +173,35 @@ const isIconOnly = computed(() =>
   --trusty-button-bg: var(--color-primary-surface);
   --trusty-button-bg-hover: var(--color-primary-surface-hover);
   --trusty-button-bg-active: var(--color-primary-surface-active);
-  --trusty-button-bg-disabled: var(--color-primary-surface-active);
+  --trusty-button-bg-disabled: var(--color-primary-disabled);
+  --trusty-button-shadow: inset 0 var(--border-sm) 0 var(--color-sheen);
 }
 
+/* Tonal seiji: the label takes the hue, a hairline ring of the hover tone holds the edge, and no state borrows the primary's orange. */
 .trusty-button[data-variant='secondary'] {
+  --trusty-button-fg: var(--color-on-secondary);
+  --trusty-button-fg-hover: var(--color-on-secondary);
+  --trusty-button-fg-active: var(--color-on-secondary);
   --trusty-button-bg: var(--color-secondary);
   --trusty-button-bg-hover: var(--color-secondary-muted);
-  --trusty-button-bg-active: var(--color-secondary-muted);
+  --trusty-button-bg-active: var(--color-secondary);
   --trusty-button-bg-disabled: var(--color-secondary);
+  --trusty-button-shadow:
+    inset 0 0 0 var(--border-sm) var(--color-secondary-muted), inset 0 var(--border-sm) 0 var(--color-sheen);
 }
 
 .trusty-button[data-variant='outline'] {
   --trusty-button-border: var(--color-border);
   --trusty-button-border-hover: var(--color-text-muted);
-  --trusty-button-border-active: var(--color-primary-highlight);
+  --trusty-button-border-active: var(--color-border-highlight);
   --trusty-button-border-disabled: var(--color-border);
 }
 
+/* Hover leans the surface a fifth of the way to its own text step: lighter under the white label in dark mode, deeper under the ink one in light. */
 .trusty-button[data-variant='danger'] {
-  --color-danger-highlight: oklch(52.3% 0.123 9);
-  --trusty-button-fg-active: var(--color-text);
   --trusty-button-fg-disabled: var(--color-danger-text);
   --trusty-button-bg: var(--color-danger-surface);
-  --trusty-button-bg-hover: var(--color-danger-highlight);
+  --trusty-button-bg-hover: color-mix(in oklab, var(--color-danger-surface) 80%, var(--color-danger-text));
   --trusty-button-bg-active: var(--color-danger-surface);
   --trusty-button-bg-disabled: var(--color-danger-surface);
 }
@@ -233,6 +244,7 @@ const isIconOnly = computed(() =>
   --trusty-button-fg: var(--trusty-button-fg-disabled);
   --trusty-button-bg: var(--trusty-button-bg-disabled);
   --trusty-button-border: var(--trusty-button-border-disabled);
+  --trusty-button-shadow: none;
 
   cursor: not-allowed;
 }

@@ -42,8 +42,8 @@ const emit = defineEmits<{ click: [event: MouseEvent] }>()
   --tag-base-hue: var(--color-tag-blue);
   --tag-base-text: var(--color-text-toned);
   --tag-base-ring: var(--tag-base-hue);
-  --tag-base-surface: color-mix(in srgb, var(--tag-base-hue) 24%, transparent);
-  --tag-base-surface-hover: color-mix(in srgb, var(--tag-base-hue) 40%, transparent);
+  --tag-base-surface: color-mix(in oklab, var(--tag-base-hue) 24%, transparent);
+  --tag-base-surface-hover: color-mix(in oklab, var(--tag-base-hue) 40%, transparent);
 
   display: inline-flex;
   gap: var(--space-xs);

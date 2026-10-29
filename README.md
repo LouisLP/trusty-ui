@@ -335,7 +335,7 @@ barreled through `main.css` (loaded once at the app root, see [Setup](#setup)):
 | --- | --- | --- |
 | `reset.css` | `reset` | Browser-default fixes ([Josh Comeau's reset](https://www.joshwcomeau.com/css/custom-css-reset/)) |
 | `tokens/tokens.css` | `tokens` | Barrel for the two token tiers below |
-| `tokens/primitives.css` | `tokens` | Raw palette (`--color-blue-500`) — referenced only by the semantic tier |
+| `tokens/primitives.css` | `tokens` | Raw palette (`--color-kaki-500`) — referenced only by the semantic tier |
 | `tokens/semantic.css` | `tokens` | The design-system API components use: role-based color aliases (`--color-text`, `--color-primary-highlight`) + every scale (`--space-*`, `--radius-*`, `--duration-*`) |
 | `base.css` | `base` | Element defaults (body typography, links) built on the tokens |
 

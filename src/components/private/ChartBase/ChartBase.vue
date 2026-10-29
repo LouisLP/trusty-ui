@@ -6,7 +6,7 @@ import type { ChartLegendItem } from '../../../internal/chart/chart-data'
 import type { PlotKind } from '../../../internal/chart/chart-plots'
 import type { ChartHover, ChartTheme } from '../../../internal/chart/chart-style'
 import type { ChartBaseProps } from './ChartBase.types'
-import { computed, defineAsyncComponent, onMounted, ref, shallowRef, useId, useTemplateRef, watch } from 'vue'
+import { computed, defineAsyncComponent, onBeforeUnmount, onMounted, ref, shallowRef, useId, useTemplateRef, watch } from 'vue'
 import { chartHoverFromTooltip, readChartTheme } from '../../../internal/chart/chart-style'
 import TrustyHoverCard from '../../base/TrustyHoverCard/TrustyHoverCard.vue'
 
@@ -26,14 +26,27 @@ const theme = shallowRef<ChartTheme>()
 
 // The webfont lands after first paint and Chart.js never re-measures its ticks.
 const fontsLoaded = ref(false)
+
+// The tokens are light-dark() pairs, resolved once into the canvas, so an OS theme switch has to re-read them.
+const schemeChanges = ref(0)
+const darkScheme = globalThis.matchMedia?.('(prefers-color-scheme: dark)')
+function onSchemeChange() {
+  schemeChanges.value++
+}
+
 onMounted(() => {
   document.fonts?.ready.then(() => {
     fontsLoaded.value = true
   })
+  darkScheme?.addEventListener?.('change', onSchemeChange)
+})
+
+onBeforeUnmount(() => {
+  darkScheme?.removeEventListener?.('change', onSchemeChange)
 })
 
 watch(
-  () => [plot.value, props.seriesCount, props.themeKey, fontsLoaded.value] as const,
+  () => [plot.value, props.seriesCount, props.themeKey, fontsLoaded.value, schemeChanges.value] as const,
   () => {
     if (plot.value)
       theme.value = readChartTheme(plot.value, props.seriesCount)
@@ -214,12 +227,12 @@ function swatch(item: ChartLegendItem) {
 
 <style scoped>
 .chart-base {
-  /* Default series palette; a plot may override it. */
-  --trusty-chart-series-1: var(--color-chart-series-1);
-  --trusty-chart-series-2: var(--color-chart-series-2);
-  --trusty-chart-series-3: var(--color-chart-series-3);
-  --trusty-chart-series-4: var(--color-chart-series-4);
-  --trusty-chart-series-5: var(--color-chart-series-5);
+  /* Default series palette, in order; a plot may override it. Component-level on purpose: only the charts draw series, so the colours live here, not in semantic.css. Five dentō-shoku dyes, ruri (lapis), moegi (young-shoot green), kariyasu (grass yellow), kurenai (safflower crimson) and fuji (wisteria): each clears 3:1 on --color-bg-elevated in its mode. They sit on the primitives' lightness ladder (600/500 light, 400/300 dark) but are spelled out, since a component may not name a primitive. readChartTheme resolves the light-dark() pair before Chart.js sees it. */
+  --trusty-chart-series-1: light-dark(oklch(50.5% 0.141 254), oklch(68% 0.15 254));
+  --trusty-chart-series-2: light-dark(oklch(50.5% 0.128 128), oklch(68% 0.14 128));
+  --trusty-chart-series-3: light-dark(oklch(59% 0.118 97), oklch(78% 0.129 97));
+  --trusty-chart-series-4: light-dark(oklch(50.5% 0.188 16), oklch(78% 0.126 16));
+  --trusty-chart-series-5: light-dark(oklch(50.5% 0.113 290), oklch(78% 0.103 290));
   --trusty-chart-legend-width: 8rem;
 
   position: relative;
