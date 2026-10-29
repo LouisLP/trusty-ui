@@ -77,6 +77,9 @@
   --color-secondary: var(--color-seiji-900);
   --color-secondary-muted: var(--color-seiji-800);
 
+  /* Secondary as a stroke or indicator on any surface, the seiji counterpart of --color-primary. */
+  --color-secondary-highlight: var(--color-seiji-500);
+
   /* neutral */
   --color-neutral-text: var(--color-sumi-300);
 
@@ -242,6 +245,9 @@
   --duration-slow: 300ms;
   --duration-slower: 500ms;
   --duration-deliberate: 800ms;
+
+  /* One full cycle of a three-frame hand-drawn "line boil" (~3.3 fps), shared with the portfolio. Stepped, never eased. */
+  --duration-boil: 900ms;
 
   /* ============================== LAYERS ============================== */
 

@@ -551,6 +551,63 @@
       "storybook": "https://louislp.github.io/trusty-ui/?path=/docs/data-display-trustykeyboardbadge--docs"
     },
     {
+      "name": "TrustyStarburst",
+      "category": "Data Display",
+      "depth": "base",
+      "summary": "Old-timey ad emphasis rays, alternating seiji and kaki, with a hand-drawn \"line boil\": three jittered redraws of the same rays swap on a stepped ~3 fps cycle,…",
+      "useWhen": [
+        "a badge, stamp or status chip wants a burst over it (`stamp`)",
+        "a card or hero edge wants rays shooting off it (`burst`)",
+        "a display heading wants a comic emphasis ping beside it (`spark`)"
+      ],
+      "dontUseFor": [
+        "anything that carries meaning: it is hidden from assistive tech, so say it in text, or use TrustyBadge",
+        "showing that work is running: use TrustySpinner",
+        "an icon in a control: use TrustyIcon",
+        "dense product UI: one per view, on a marketing or empty-state surface, or it stops reading as emphasis"
+      ],
+      "description": "Old-timey ad emphasis rays, alternating seiji and kaki, with a hand-drawn \"line boil\": three jittered redraws of the same rays swap on a stepped ~3 fps cycle, so the mark reads as drawn rather than rendered. Under `prefers-reduced-motion` it holds still on the first frame.\n\nIt is pure ornament — `aria-hidden`, no text, no interaction. It has no size of its own: set `inline-size` on it, and `rotate` or `scale: -1 1` to point it the other way.\n\n**Use it when**\n- a badge, stamp or status chip wants a burst over it (`stamp`)\n- a card or hero edge wants rays shooting off it (`burst`)\n- a display heading wants a comic emphasis ping beside it (`spark`)\n\n**Don't use it for**\n- anything that carries meaning: it is hidden from assistive tech, so say it in text, or use TrustyBadge\n- showing that work is running: use TrustySpinner\n- an icon in a control: use TrustyIcon\n- dense product UI: one per view, on a marketing or empty-state surface, or it stops reading as emphasis",
+      "props": [
+        {
+          "name": "variant",
+          "type": "\"stamp\" | \"burst\" | \"spark\"",
+          "required": false,
+          "default": "\"stamp\"",
+          "description": "stamp: a half-arc radiating up, over a badge. burst: large loose rays shooting left off an edge. spark: four ticks fanning up-right beside a heading.",
+          "options": [
+            "stamp",
+            "burst",
+            "spark"
+          ]
+        }
+      ],
+      "events": [],
+      "slots": [],
+      "stories": [
+        {
+          "name": "Default",
+          "description": null
+        },
+        {
+          "name": "Variants",
+          "description": "The three ray sets, each at a width that suits it."
+        },
+        {
+          "name": "OverABadge",
+          "description": "`stamp` sits over a badge; position it so the arc's centre meets the badge's top edge."
+        },
+        {
+          "name": "BesideAHeading",
+          "description": "`spark` beside a display heading; mirrored with `scale: -1 1` it leads instead of trails."
+        },
+        {
+          "name": "OffAnEdge",
+          "description": "`burst` shoots left off an edge; mirror it for the opposite side."
+        }
+      ],
+      "storybook": "https://louislp.github.io/trusty-ui/?path=/docs/data-display-trustystarburst--docs"
+    },
+    {
       "name": "TrustyTable",
       "category": "Data Display",
       "depth": "composite",
