@@ -12,7 +12,7 @@ withDefaults(defineProps<TagBaseProps & {
   /** `aria-pressed`, verbatim: `true` / `false` make the chip a toggle and paint the ring when on, `undefined` leaves it a plain button. */
   pressed?: boolean
 }>(), {
-  color: 'blue',
+  color: 'mint',
   disabled: false,
   pressed: undefined,
 })

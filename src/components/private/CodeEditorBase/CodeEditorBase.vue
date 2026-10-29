@@ -91,7 +91,7 @@ export default { inheritAttrs: false }
   min-block-size: 0;
   min-inline-size: 0;
   overflow: hidden;
-  background-color: var(--color-secondary);
+  background-color: var(--color-bg-inset);
   border: var(--border-md) solid var(--color-border);
   border-radius: var(--radius-xs);
   transition: border-color var(--duration-fast) ease-out;
@@ -113,7 +113,7 @@ export default { inheritAttrs: false }
 /* Disabled paints muted surfaces (no opacity — the colours carry the state). */
 .code-editor-base[data-disabled] {
   cursor: not-allowed;
-  background-color: var(--color-secondary-muted);
+  background-color: var(--color-bg-inset-muted);
 }
 
 .code-editor-base[data-disabled] .code-editor-base-host {

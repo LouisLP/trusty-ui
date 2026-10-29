@@ -288,9 +288,9 @@ async function refocus(id: string) {
   color: var(--color-text);
 }
 
-/* the selection's group — parent + siblings — tints as the active branch */
+/* the selection's group — parent + siblings — recedes into an inset as the active branch, below the selected row's lift */
 .trusty-tree-node[data-highlighted] {
-  background-color: var(--color-secondary-muted);
+  background-color: var(--color-bg-inset);
 }
 
 /* stylelint-disable-next-line a11y/selector-pseudo-class-focus -- keyboard
@@ -350,7 +350,7 @@ async function refocus(id: string) {
 
 /* nesting targets the whole row, so it tints rather than drawing an edge */
 .trusty-tree-node[data-drop='inside'] {
-  background-color: var(--color-secondary-muted);
+  background-color: var(--color-bg-inset-muted);
   box-shadow: inset 0 0 0 var(--border-md) var(--color-primary-highlight);
 }
 

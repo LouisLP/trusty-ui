@@ -95,11 +95,15 @@ function cssColor(value: unknown): string {
 }
 
 /**
- * A hex colour re-expressed at `alpha`, for muting a series while another is hovered.
- * Anything that is not `#rgb`/`#rrggbb` is returned untouched — the palette is hex, so a
- * miss means muting simply no-ops rather than handing Chart.js a broken colour.
+ * A colour re-expressed at `alpha`, for muting a series while another is hovered.
+ * Anything that is not an opaque `oklch()` or `#rgb`/`#rrggbb` is returned untouched — the
+ * palette is oklch, so a miss means muting simply no-ops rather than handing Chart.js a broken colour.
  */
 export function withAlpha(color: string, alpha: number): string {
+  const channels = /^oklch\(([^/)]+)\)$/i.exec(color.trim())?.[1]
+  if (channels)
+    return `oklch(${channels.trim()} / ${alpha})`
+
   const group = /^#([0-9a-f]{3}|[0-9a-f]{6})$/i.exec(color.trim())?.[1]
   if (!group)
     return color

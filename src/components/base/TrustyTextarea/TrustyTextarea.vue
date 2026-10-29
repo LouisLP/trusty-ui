@@ -56,7 +56,7 @@ const model = defineModel<string>({ default: '' })
   line-height: var(--line-height-normal);
   color: var(--color-text-toned);
   appearance: none;
-  background-color: var(--color-secondary);
+  background-color: var(--color-bg-inset);
   border: var(--border-md) solid var(--color-border);
   border-radius: var(--radius-xs);
 
@@ -96,7 +96,7 @@ const model = defineModel<string>({ default: '' })
 .trusty-textarea:disabled {
   color: var(--color-text-muted);
   cursor: not-allowed;
-  background-color: var(--color-secondary-muted);
+  background-color: var(--color-bg-inset-muted);
   border-color: var(--color-border);
 }
 

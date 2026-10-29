@@ -94,7 +94,7 @@ const controlId = computed(() => (attrs.id as string | undefined) ?? fallbackId)
 }
 
 .trusty-switch-track[data-state='checked'] {
-  /* primary, not primary-highlight: the thumb then paints on-primary, which the combo promises AA on its accent. White on primary-highlight fails 3:1 for 154 of 348 combos. */
+  /* primary, not primary-highlight: the thumb then paints on-primary, which the palette gate holds at AA on primary. */
   background-color: var(--color-primary);
 }
 

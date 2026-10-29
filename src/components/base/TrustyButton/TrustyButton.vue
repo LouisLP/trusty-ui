@@ -186,7 +186,7 @@ const isIconOnly = computed(() =>
 }
 
 .trusty-button[data-variant='danger'] {
-  --color-danger-highlight: #a3475a;
+  --color-danger-highlight: oklch(52.3% 0.123 9);
   --trusty-button-fg-active: var(--color-text);
   --trusty-button-fg-disabled: var(--color-danger-text);
   --trusty-button-bg: var(--color-danger-surface);

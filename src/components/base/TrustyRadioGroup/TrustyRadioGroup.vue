@@ -110,7 +110,7 @@ const optionId = (value: string) => `${uid}-${value}`
 /* Per-state colour channels */
 .trusty-radio-group-box {
   /* unselected = default channel set */
-  --trusty-radio-group-bg: var(--color-secondary);
+  --trusty-radio-group-bg: var(--color-bg-inset);
   --trusty-radio-group-border: var(--color-border);
   --trusty-radio-group-border-hover: var(--color-text-muted);
 
@@ -157,7 +157,7 @@ const optionId = (value: string) => `${uid}-${value}`
 .trusty-radio-group-box[data-disabled] {
   cursor: not-allowed;
 
-  --trusty-radio-group-bg: var(--color-secondary-muted);
+  --trusty-radio-group-bg: var(--color-bg-inset-muted);
   --trusty-radio-group-border: var(--color-border);
   --trusty-radio-group-dot: var(--color-text-muted);
 }

@@ -116,18 +116,15 @@ A role with no row above has no style yet. Add a row here before inventing one.
 
 ## Colour
 
-The palette is combo #2 from
-[japanese-colour-combos](https://www.npmjs.com/package/japanese-colour-combos):
-**Yellow Orange** (`#f99d1b`) is the accent, **Dark Tyrian Blue** (`#12354e`)
-the second colour, both over the combo's own dark neutrals. `tokens.css` names
-the combo in one import, and every role below aliases a role-named `--cc-*`
-variable rather than a colour-named one, so swapping the combo is a one-line
-change. A screen styled through the roles survives that swap untouched; a screen
-that hard-codes orange does not.
+The palette is three dyes off a kabuki curtain: **kaki** (persimmon orange,
+`oklch(72% 0.15 45)`) is the accent, **seiji** (pine green,
+`oklch(55% 0.096 165)`) the second colour, both over **sumi**, the ink
+neutrals. Every value in `primitives.css` is oklch. A screen styled through the
+roles below survives a retune of any of them; a screen that hard-codes orange
+does not.
 
-Status, tag and chart hues are the library's own fixed ramps in
-`primitives.css`. A two-colour combo has no red or green, and a status colour
-has to mean the same thing whatever the combo.
+Status, tag and chart hues are separate fixed ramps in the same file, so a
+status colour means the same thing whatever the theme.
 
 Every colour comes from a semantic role in `semantic.css`:
 
@@ -138,8 +135,11 @@ Every colour comes from a semantic role in `semantic.css`:
   `-disabled`, plus `--color-on-primary` for text and icons on a primary fill;
   `--color-primary-surface` (`-hover`, `-active`) with `--color-on-primary-surface`
   (`-hover`) for the primary button: accent label on a deep accent fill.
-- **Secondary**: `--color-secondary`, `-muted`. The control fill (inputs,
-  checkboxes, secondary buttons), drawn from Dark Tyrian Blue.
+- **Depth**: `--color-bg-inset`, `-muted`. The ground of a backgrounded
+  element — a field, a checkbox box, a code well — recessed into the surface
+  around it. Always neutral sumi: a field is not an action, so it takes no hue.
+- **Secondary**: `--color-secondary`, `-muted`. The fill of a secondary action
+  (secondary buttons, a pressed toggle, the current page), drawn from seiji.
 - **Status**: `--color-{danger,warning,success,info}-{text,surface,surface-subtle}`,
   plus `--color-on-status` for text and icons on a status surface.
 - **Decorative**: `--color-tag-*` for tag hues, `--color-chart-series-1` …
@@ -150,8 +150,8 @@ Every colour comes from a semantic role in `semantic.css`:
 A handful more (`--color-control-thumb`, `--color-ghost-surface-subtle`) exist
 for the one component that draws them. A screen has no use for them.
 
-Reaching past this list, into `primitives.css` (`--color-blue-500`), a `--cc-*`
-variable or a raw hex, is a **primitive leak**: the design should name the role.
+Reaching past this list, into `primitives.css` (`--color-kaki-500`) or a raw
+colour value, is a **primitive leak**: the design should name the role.
 Report it. The library holds itself to the same rule, and `token-tiers.spec.ts`
 fails any component that breaks it.
 
@@ -160,8 +160,8 @@ the current selection, the checked control and focus. It is not a decoration, a
 heading colour or a background wash; a screen painted orange has nothing left to
 point with.
 
-- **Text on a primary fill is `--color-on-primary`** (black, for combo #2),
-  never `--color-text`. White on Yellow Orange is roughly 2:1. On the tonal
+- **Text on a primary fill is `--color-on-primary`** (sumi ink),
+  never `--color-text`. White on kaki fails AA. On the tonal
   `--color-primary-surface`, it is `--color-on-primary-surface`.
 - **Primary as text, a ring or an indicator on a dark surface is
   `--color-primary-highlight`.** `--color-primary` is the fill.

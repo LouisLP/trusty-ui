@@ -4,10 +4,10 @@ import { describe, expect, it } from 'vitest'
 
 // The token-tier gate.
 //
-// Components style through semantic.css only. The primitive tier — every custom property primitives.css declares, plus the combo's --cc-* roles — is semantic.css's to alias, so a component that names one bypasses the role a combo swap or a retune would move. Specs are exempt: they may quote a token as test data.
+// Components style through semantic.css only. The primitive tier — every custom property primitives.css declares — is semantic.css's to alias, so a component that names one bypasses the role a retune would move. Specs are exempt: they may quote a token as test data.
 const PRIMITIVES = new Set(readFileSync('src/styles/tokens/primitives.css', 'utf8').match(/--[\w-]+(?=\s*:)/g))
 
-const isPrimitive = (name: string) => PRIMITIVES.has(name) || name.startsWith('--cc-')
+const isPrimitive = (name: string) => PRIMITIVES.has(name)
 
 const sources = ['src/components', 'src/internal'].flatMap(dir =>
   readdirSync(dir, { recursive: true, encoding: 'utf8' })

@@ -64,7 +64,7 @@ a[class] {
   font-variant-ligatures: none;
   color: var(--color-text-toned);
   overflow-wrap: break-word;
-  background-color: var(--color-secondary);
+  background-color: var(--color-bg-inset);
   border: var(--border-sm) solid var(--color-border);
   border-radius: var(--radius-xs);
 }

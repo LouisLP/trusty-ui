@@ -40,7 +40,7 @@ Every click means the same thing, so the tag holds no state of its own: it emits
   },
   args: {
     label: 'keyword',
-    color: 'blue',
+    color: 'mint',
     action: 'remove',
     disabled: false,
   },
@@ -49,7 +49,7 @@ Every click means the same thing, so the tag holds no state of its own: it emits
 export default meta
 type Story = StoryObj<typeof meta>
 
-/** Default — blue, removable, at rest. */
+/** Default — mint, removable, at rest. */
 export const Default: Story = {}
 
 /** The `+` affordance: a tag you do not have yet. */

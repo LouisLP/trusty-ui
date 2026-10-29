@@ -234,7 +234,7 @@ function remove(index: number) {
 
 .trusty-file-input-dropzone[data-disabled] {
   cursor: not-allowed;
-  background-color: var(--color-secondary-muted);
+  background-color: var(--color-bg-inset-muted);
   border-color: var(--color-border);
 }
 

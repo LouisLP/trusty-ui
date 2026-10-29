@@ -11,7 +11,7 @@ withDefaults(defineProps<{
   color?: TrustyTagColor
   disabled?: boolean
 }>(), {
-  color: 'blue',
+  color: 'mint',
   disabled: false,
 })
 

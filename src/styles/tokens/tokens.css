@@ -1,10 +1,8 @@
 /* Trusty UI design tokens — barrel for the two token tiers.
 
-   japanese-colour-combos — the colour primitives, as --cc-* custom properties. The combo id lives here and only here: change `2` to swap the palette.
-   primitives.css         — the raw values the combo cannot supply (status hues, tag hues, white). Never used by components.
-   semantic.css           — the design-system API components consume via var(--token).
+   primitives.css — the raw palette: the sumi / kaki / seiji theme, the status and tag hues. Never used by components.
+   semantic.css   — the design-system API components consume via var(--token).
 
    Loaded through styles/main.css, which slots this whole barrel into the `tokens` cascade layer. */
-@import url('japanese-colour-combos/2.css');
 @import url('./primitives.css');
 @import url('./semantic.css');

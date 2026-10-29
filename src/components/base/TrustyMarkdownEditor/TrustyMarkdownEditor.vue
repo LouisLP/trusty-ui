@@ -126,7 +126,7 @@ export default { inheritAttrs: false }
   font-family: var(--font-family-sans);
   font-size: var(--font-size-sm);
   line-height: var(--line-height-normal);
-  background-color: var(--color-secondary);
+  background-color: var(--color-bg-inset);
   border: var(--border-md) solid var(--color-border);
   border-end-start-radius: var(--radius-xs);
   border-end-end-radius: var(--radius-xs);
@@ -150,7 +150,7 @@ export default { inheritAttrs: false }
 .trusty-markdown-editor[data-disabled] .trusty-markdown-editor-surface {
   color: var(--color-text-muted);
   cursor: not-allowed;
-  background-color: var(--color-secondary-muted);
+  background-color: var(--color-bg-inset-muted);
 }
 
 /* CodeMirror's DOM never carries Vue's scope attribute, so its metrics and colours are set through the theme facet in TrustyMarkdownEditor.theme.ts. What is left here is the box it lives in — and the editor has to *be* that box rather than sit at the top of it, or a click below the first line lands on a wrapper the editor does not own and the field never takes focus.

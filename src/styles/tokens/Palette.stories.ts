@@ -12,10 +12,11 @@ import {
   TrustyTextInput,
 } from '../../index'
 
-// The semantic colour roles, grouped as semantic.css groups them. A swatch resolves its token live, so the page shows whatever combo tokens.css imports.
+// The semantic colour roles, grouped as semantic.css groups them. A swatch resolves its token live, so the page shows whatever primitives.css holds.
 const GROUPS: [group: string, tokens: string[]][] = [
   ['Text', ['text', 'text-toned', 'text-muted', 'text-inverted']],
   ['Surfaces', ['bg-sunken', 'bg-lowered', 'bg', 'bg-elevated', 'bg-accented']],
+  ['Depth', ['bg-inset', 'bg-inset-muted']],
   ['Borders', ['border-muted', 'border', 'border-highlight', 'border-danger']],
   ['Primary', ['primary', 'primary-hover', 'primary-active', 'on-primary', 'primary-highlight', 'primary-muted', 'primary-disabled', 'primary-surface', 'primary-surface-hover', 'primary-surface-active', 'on-primary-surface', 'on-primary-surface-hover']],
   ['Secondary', ['secondary', 'secondary-muted']],
@@ -25,14 +26,14 @@ const GROUPS: [group: string, tokens: string[]][] = [
   ['Chart series', ['chart-series-1', 'chart-series-2', 'chart-series-3', 'chart-series-4', 'chart-series-5']],
 ]
 
-const RAMPS = ['accent', 'accent-2', 'neutral']
-// Our own status ramps, on the same lightness grid as the combo's, so step n of each reads as one row.
+// The theme: sumi neutrals, kaki primary, seiji secondary.
+const RAMPS = ['sumi', 'kaki', 'seiji']
 const STATUS_RAMPS = ['red', 'yellow', 'green', 'blue']
 const STEPS = [50, 100, 200, 300, 400, 500, 600, 700, 800, 900, 950]
 
 interface Pair { fg: string, bg: string, min: 3 | 4.5 }
 
-const TEXT_GROUNDS = ['bg-sunken', 'bg-lowered', 'bg', 'bg-elevated', 'bg-accented', 'secondary', 'secondary-muted']
+const TEXT_GROUNDS = ['bg-sunken', 'bg-lowered', 'bg', 'bg-elevated', 'bg-accented', 'bg-inset', 'bg-inset-muted', 'secondary', 'secondary-muted']
 const PANEL_GROUNDS = ['bg-lowered', 'bg', 'bg-elevated']
 
 // Every pair a component actually draws, with the WCAG AA floor it owes: 4.5:1 for text, 3:1 for fills, rings and boundaries.
@@ -51,10 +52,10 @@ const PAIRS: Pair[] = [
 
 type Rgb = [number, number, number]
 
-// Resolve a custom property to sRGB by letting the browser compute it: covers var() chains, light-dark() and color-mix().
+// Resolve a custom property to sRGB by letting the browser compute it: covers var() chains, light-dark() and color-mix(). The palette is oklch, which computes as oklch(); mixing in srgb makes it compute as color(srgb …) instead.
 function resolve(token: string): Rgb {
   const probe = document.createElement('span')
-  probe.style.color = `var(${token})`
+  probe.style.color = `color-mix(in srgb, var(${token}) 100%, transparent)`
   document.body.append(probe)
   const computed = getComputedStyle(probe).color
   probe.remove()
@@ -94,7 +95,7 @@ const Swatches = defineComponent({
     onMounted(() => {
       const all = [
         ...GROUPS.flatMap(([, tokens]) => tokens.map(t => `--color-${t}`)),
-        ...RAMPS.flatMap(r => STEPS.map(s => `--cc-${r}-${s}`)),
+        ...RAMPS.flatMap(r => STEPS.map(s => `--color-${r}-${s}`)),
         ...STATUS_RAMPS.flatMap(r => STEPS.map(s => `--color-${r}-${s}`)),
       ]
       values.value = Object.fromEntries(all.map(t => [t, hex(resolve(t))]))
@@ -105,7 +106,7 @@ const Swatches = defineComponent({
     ])
     return () => h('div', { style: 'padding: var(--space-lg); background: var(--color-bg-lowered);' }, [
       ...GROUPS.map(([group, tokens]) => section(group, tokens.map(t => swatch(`--color-${t}`, values.value[`--color-${t}`] ?? '')))),
-      ...RAMPS.map(r => section(`--cc-${r}-* (primitive ramp)`, STEPS.map(s => swatch(`--cc-${r}-${s}`, values.value[`--cc-${r}-${s}`] ?? '', String(s))))),
+      ...RAMPS.map(r => section(`--color-${r}-* (theme ramp)`, STEPS.map(s => swatch(`--color-${r}-${s}`, values.value[`--color-${r}-${s}`] ?? '', String(s))))),
       ...STATUS_RAMPS.map(r => section(`--color-${r}-* (status ramp)`, STEPS.map(s => swatch(`--color-${r}-${s}`, values.value[`--color-${r}-${s}`] ?? '', String(s))))),
     ])
   },
@@ -164,7 +165,7 @@ const meta = {
     layout: 'fullscreen',
     docs: {
       description: {
-        component: 'Prototype for [#8](https://github.com/LouisLP/trusty-ui/issues/8) and [#18](https://github.com/LouisLP/trusty-ui/issues/18): every semantic colour role resolved from the combo that `tokens.css` imports, the status ramps beside the combo\'s own, the contrast of every pair a component draws, and the components themselves on each surface. Swap the combo import and this page re-measures.',
+        component: 'Prototype for [#8](https://github.com/LouisLP/trusty-ui/issues/8) and [#18](https://github.com/LouisLP/trusty-ui/issues/18): every semantic colour role resolved live, the theme and status ramps, the contrast of every pair a component draws, and the components themselves on each surface. Retune a primitive and this page re-measures.',
       },
     },
   },
@@ -175,7 +176,7 @@ type Story = StoryObj<typeof meta>
 
 export const Roles: Story = { render: () => ({ components: { Swatches }, template: '<Swatches />' }) }
 
-/** Fails if any pair drops below its AA floor, which makes this story the swap gate: run `pnpm test:storybook` after changing the combo. */
+/** Fails if any pair drops below its AA floor, which makes this story the palette gate: run `pnpm test:storybook` after retuning a colour. */
 export const Contrast: Story = {
   render: () => ({ components: { ContrastTable }, template: '<ContrastTable />' }),
   play: async ({ canvasElement }) => {

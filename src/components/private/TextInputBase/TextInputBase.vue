@@ -60,7 +60,7 @@ export default { inheritAttrs: false }
   align-items: center;
   inline-size: 100%;
   min-block-size: var(--size-control-md);
-  background-color: var(--color-secondary);
+  background-color: var(--color-bg-inset);
   border: var(--border-md) solid var(--color-border);
   border-radius: var(--radius-xs);
   transition:
@@ -86,7 +86,7 @@ export default { inheritAttrs: false }
 /* Disabled paints muted surfaces (no opacity — the colours carry the state). */
 .text-input-base[data-disabled] {
   cursor: not-allowed;
-  background-color: var(--color-secondary-muted);
+  background-color: var(--color-bg-inset-muted);
   border-color: var(--color-border);
 }
 

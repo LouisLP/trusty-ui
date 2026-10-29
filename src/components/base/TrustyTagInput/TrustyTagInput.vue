@@ -93,7 +93,7 @@ const model = defineModel<string[]>({ default: () => [] })
   inline-size: 100%;
   min-block-size: var(--size-control-md);
   padding: var(--space-sm);
-  background-color: var(--color-bg-lowered);
+  background-color: var(--color-bg-inset);
   border: var(--border-md) solid var(--color-border);
   border-radius: var(--radius-xs);
   transition: border-color var(--duration-fast) ease-out;
@@ -115,7 +115,7 @@ const model = defineModel<string[]>({ default: () => [] })
 
 .trusty-tag-input[data-disabled] {
   cursor: not-allowed;
-  background-color: var(--color-secondary-muted);
+  background-color: var(--color-bg-inset-muted);
   border-color: var(--color-border);
 }
 

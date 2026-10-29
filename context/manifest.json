@@ -11,7 +11,7 @@
     },
     {
       "title": "Token tiers",
-      "body": "Two tiers in `src/styles/tokens/`, and components may only see one of them.\n\n- **primitive** (`primitives.css`, and the combo's `--cc-*`) — the raw palette,\n  `--color-blue-500`. Never referenced outside the semantic tier.\n- **semantic** (`semantic.css`) — the design system's public API:\n  `--color-primary-highlight`, `--color-text`, `--space-*`, `--radius-*`,\n  `--duration-*`. This file is the canonical token reference. Its colour\n  roles alias role-named `--cc-*` variables (`--cc-accent`, never a colour\n  name), so swapping the palette is the one combo import in `tokens.css`.\n  Decorative colour gets roles too: `--color-tag-*` for tag hues,\n  `--color-chart-series-*` for chart series.\n\nComponents style through semantic tokens only; `token-tiers.spec.ts` fails when\na component's source names a primitive. Cascade layers run\n`reset, tokens, base`, assigned by `main.css`; layered styles lose to unlayered\nones, so scoped SFC styles and app CSS win without specificity games."
+      "body": "Two tiers in `src/styles/tokens/`, and components may only see one of them.\n\n- **primitive** (`primitives.css`) — the raw palette, all oklch,\n  `--color-kaki-500`. Never referenced outside the semantic tier.\n- **semantic** (`semantic.css`) — the design system's public API:\n  `--color-primary-highlight`, `--color-text`, `--space-*`, `--radius-*`,\n  `--duration-*`. This file is the canonical token reference.\n  Decorative colour gets roles too: `--color-tag-*` for tag hues,\n  `--color-chart-series-*` for chart series.\n\nComponents style through semantic tokens only; `token-tiers.spec.ts` fails when\na component's source names a primitive. Cascade layers run\n`reset, tokens, base`, assigned by `main.css`; layered styles lose to unlayered\nones, so scoped SFC styles and app CSS win without specificity games."
     },
     {
       "title": "Two stylesheets",
@@ -437,7 +437,7 @@
           "name": "color",
           "type": "\"blue\" | \"stone\" | \"purple\" | \"forest\" | \"mint\" | \"magenta\" | \"brown\"",
           "required": false,
-          "default": "\"blue\"",
+          "default": "\"mint\"",
           "description": "Which of the seven hues to paint. Decorative — the app decides what a hue means.",
           "options": [
             "blue",
@@ -477,7 +477,7 @@
       "stories": [
         {
           "name": "Default",
-          "description": "Default — blue, off."
+          "description": "Default — mint, off."
         },
         {
           "name": "Selected",
@@ -721,7 +721,7 @@
           "name": "color",
           "type": "\"blue\" | \"stone\" | \"purple\" | \"forest\" | \"mint\" | \"magenta\" | \"brown\"",
           "required": false,
-          "default": "\"blue\"",
+          "default": "\"mint\"",
           "description": "Which of the seven hues to paint. Decorative — the app decides what a hue means.",
           "options": [
             "blue",
@@ -764,7 +764,7 @@
       "stories": [
         {
           "name": "Default",
-          "description": "Default — blue, removable, at rest."
+          "description": "Default — mint, removable, at rest."
         },
         {
           "name": "Add",
