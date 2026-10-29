@@ -84,6 +84,14 @@ describe('readChartTheme', () => {
 })
 
 describe('withAlpha', () => {
+  it('adds the opacity to an opaque oklch colour', () => {
+    expect(withAlpha('oklch(56.3% 0.113 250)', 0.4)).toBe('oklch(56.3% 0.113 250 / 0.4)')
+  })
+
+  it('leaves an oklch colour that already carries an alpha untouched', () => {
+    expect(withAlpha('oklch(56.3% 0.113 250 / 0.5)', 0.4)).toBe('oklch(56.3% 0.113 250 / 0.5)')
+  })
+
   it('re-expresses a six-digit hex at the given opacity', () => {
     expect(withAlpha('#6fc06f', 0.4)).toBe('rgba(111, 192, 111, 0.4)')
   })

@@ -105,8 +105,8 @@ const controlId = computed(() => (attrs.id as string | undefined) ?? fallbackId)
 /* Per-state colour channels */
 .trusty-checkbox-box {
   /* unchecked = default channel set */
-  --trusty-checkbox-bg: var(--color-secondary);
-  --trusty-checkbox-bg-hover: var(--color-secondary);
+  --trusty-checkbox-bg: var(--color-bg-inset);
+  --trusty-checkbox-bg-hover: var(--color-bg-inset);
   --trusty-checkbox-border: var(--color-border);
   --trusty-checkbox-border-hover: var(--color-text-muted);
   --trusty-checkbox-fg: var(--color-text);
@@ -163,7 +163,7 @@ const controlId = computed(() => (attrs.id as string | undefined) ?? fallbackId)
 .trusty-checkbox-box:disabled[data-state='unchecked'],
 .trusty-checkbox-box:disabled[data-state='indeterminate'] {
   color: var(--color-text-muted);
-  background-color: var(--color-secondary-muted);
+  background-color: var(--color-bg-inset-muted);
   border-color: var(--color-border);
 }
 

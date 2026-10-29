@@ -193,9 +193,6 @@ importers:
       chart.js:
         specifier: ^4.5.1
         version: 4.5.1
-      japanese-colour-combos:
-        specifier: 0.1.0
-        version: 0.1.0
       reka-ui:
         specifier: 2.10.4
         version: 2.10.4(vue@3.5.43(typescript@5.9.3))
@@ -3303,9 +3300,6 @@ packages:
   istanbul-reports@3.2.0:
     resolution: {integrity: sha512-HGYWWS/ehqTV3xN10i23tkPkpH46MLCIMFNCaaKNavAXTF1RkqxawEPtnjnGZ6XKSInBKkiOA5BKS+aZiY3AvA==}
     engines: {node: '>=8'}
-
-  japanese-colour-combos@0.1.0:
-    resolution: {integrity: sha512-nFFs67dsKdt5a6pxJ9X4/Urs0yd7Zs4Alu+pAe33tN0PfHNs/hB56NG3myFNUxV6XbuCAB7EcYCTtIu810vQGA==}
 
   jiti@2.7.0:
     resolution: {integrity: sha512-AC/7JofJvZGrrneWNaEnJeOLUx+JlGt7tNa0wZiRPT4MY1wmfKjt2+6O2p2uz2+skll8OZZmJMNqeke7kKbNgQ==}
@@ -7338,8 +7332,6 @@ snapshots:
     dependencies:
       html-escaper: 2.0.2
       istanbul-lib-report: 3.0.1
-
-  japanese-colour-combos@0.1.0: {}
 
   jiti@2.7.0: {}
 

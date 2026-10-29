@@ -27,7 +27,7 @@ import { TrustyTag } from '@louislp/trusty-ui'
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
 | `label` | `string` | *required* | Tag text. Plain string only: keeps every tag on the design system. |
-| `color` | `"blue" \| "stone" \| "purple" \| "forest" \| "mint" \| "magenta" \| "brown"` | `"blue"` | Which of the seven hues to paint. Decorative — the app decides what a hue means. |
+| `color` | `"blue" \| "stone" \| "purple" \| "forest" \| "mint" \| "magenta" \| "brown"` | `"mint"` | Which of the seven hues to paint. Decorative — the app decides what a hue means. |
 | `action` | `"add" \| "remove"` | `"remove"` | Whether clicking adds this tag (leading `+`) or removes it (trailing `×`). |
 | `disabled` | `boolean` | `false` |  |
 
@@ -37,7 +37,7 @@ import { TrustyTag } from '@louislp/trusty-ui'
 
 ## Examples in Storybook
 
-- Default — Default — blue, removable, at rest.
+- Default — Default — mint, removable, at rest.
 - Add — The `+` affordance: a tag you do not have yet.
 - Disabled — Disabled keeps the resting hue and drops the label to muted — the colours carry the state.
 - Colors — All seven hues. They are decoration: nothing about a hue implies a meaning.

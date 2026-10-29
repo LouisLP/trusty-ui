@@ -17,7 +17,7 @@ const props = withDefaults(defineProps<{
   action?: TrustyTagAction
   disabled?: boolean
 }>(), {
-  color: 'blue',
+  color: 'mint',
   action: 'remove',
   disabled: false,
 })

@@ -1,11 +1,11 @@
 /* Trusty UI semantic tokens: the design-system API components consume.
 
-   Every token here is either a role-based alias of a primitive (--color-primary → --cc-accent) or a design-decision scale (spacing, radius, typography, …). Components use var(--token) from THIS file only — never the raw palette in primitives.css.
+   Every token here is either a role-based alias of a primitive (--color-primary → --color-kaki-500) or a design-decision scale (spacing, radius, typography, …). Components use var(--token) from THIS file only — never the raw palette in primitives.css.
 
    Loaded via the token barrel (tokens.css) → styles/main.css.
 
    Structure:
-   1. Semantic colors    — role-based aliases of the combo's --cc-* roles (and our status primitives).
+   1. Semantic colors    — role-based aliases of the sumi / kaki / seiji theme (and the status primitives).
    2. Typography         — font family / size / weight / line-height / letter-spacing.
    3. Spacing            — gap / padding / margin.
    4. Sizing             — width / height / min- / max- dimensions.
@@ -17,72 +17,68 @@
 :root {
   /* ========================== SEMANTIC COLORS ========================= */
 
-  /* The combo's roles are light-dark() pairs, so this picks the mode. Dark only, for now. */
+  /* Dark only, for now. */
   color-scheme: dark;
 
-  /* Every colour role below aliases a ROLE-named --cc-* variable (canvas, ink, accent, accent-2, neutral), never a colour-named one, so swapping the combo import in tokens.css leaves this block untouched. Status colours are the exception: a two-colour combo has none, so they stay on our own primitives — text at 300, surfaces at 700, the 400 for borders and subtle washes. */
+  /* sumi for text, surfaces and borders; kaki is primary, seiji secondary. Status colours stay on their own ramps — text at 300, surfaces at 700, the 400 for borders and subtle washes. The Foundations/Palette story gates every pair below at AA. */
 
   /* text */
-  --color-text: var(--cc-ink);
-  --color-text-inverted: var(--cc-canvas);
-  --color-text-toned: var(--cc-neutral-200);
-  /* Secondary text, placeholders and disabled labels alike. The combo promises AA for ink-muted on every surface, and no step below it does, so there is no room for a dimmer tier. */
-  --color-text-muted: var(--cc-ink-muted);
+  --color-text: var(--color-sumi-50);
+  --color-text-inverted: var(--color-sumi-950);
+  --color-text-toned: var(--color-sumi-200);
+  /* Secondary text, placeholders and disabled labels alike. The dimmest step that still clears AA on every surface, so there is no room for a dimmer tier. */
+  --color-text-muted: var(--color-sumi-300);
 
-  /* backgrounds / surfaces: the combo has three surface roles, trusty-ui five, so the ladder runs neutral-950 → canvas → surface → surface-muted → neutral-800. */
-  --color-bg: var(--cc-surface);
-  --color-bg-lowered: var(--cc-canvas);
-  --color-bg-elevated: var(--cc-surface-muted);
-  --color-bg-accented: var(--cc-neutral-800);
+  /* backgrounds / surfaces, darkest to lightest: sunken → lowered → bg → elevated → accented. */
+  --color-bg: var(--color-sumi-850);
+  --color-bg-lowered: var(--color-sumi-900);
+  --color-bg-elevated: var(--color-sumi-800);
+  --color-bg-accented: var(--color-sumi-700);
 
   /* Below every other surface: the ground a code sample sits on, so it reads as inset even when the surface around it is already lowered. */
-  --color-bg-sunken: var(--cc-neutral-950);
+  --color-bg-sunken: var(--color-sumi-950);
+
+  /* depth: the ground of a backgrounded element — a field, a checkbox box, a code well, a tree's active branch — recessed into whatever surface it sits on. Always neutral: colour is spent on what the user acts on, never on the well it happens in. muted is the step for hover, disabled and pressed-in. */
+  --color-bg-inset: var(--color-sumi-950);
+  --color-bg-inset-muted: var(--color-sumi-800);
 
   /* borders */
-  --color-border: var(--cc-border);
-  --color-border-muted: var(--cc-neutral-800);
-  /* Not border-strong: the combo promises it 3:1 on canvas only, and trusty-ui draws this on raised surfaces too. neutral-500 clears 3:1 up to bg-elevated. */
-  --color-border-highlight: var(--cc-neutral-500);
+  --color-border: var(--color-sumi-700);
+  --color-border-muted: var(--color-sumi-800);
+  /* Clears 3:1 up to bg-elevated, for rings and boundaries that must be seen. */
+  --color-border-highlight: var(--color-sumi-400);
   --color-border-danger: var(--color-red-400);
 
-  /* primary: the combo's first colour */
-  --color-primary: var(--cc-accent);
+  /* primary: kaki, the curtain's own sample */
+  --color-primary: var(--color-kaki-500);
 
-  /* Primary as text, focus ring or indicator on any surface: the combo promises 4.5:1. */
-  --color-primary-highlight: var(--cc-accent-text);
+  /* Primary as text, focus ring or indicator on any surface. */
+  --color-primary-highlight: var(--color-kaki-400);
 
   /* A dim primary wash that body text can sit on (selection, tinted rows). */
-  --color-primary-muted: color-mix(in srgb, var(--cc-accent) 30%, var(--cc-canvas));
-  --color-primary-disabled: var(--cc-accent-800);
+  --color-primary-muted: color-mix(in srgb, var(--color-kaki-500) 30%, var(--color-sumi-900));
+  --color-primary-disabled: var(--color-kaki-800);
 
-  /* Text and icons on a primary fill. White on the accent can fail AA (2.13:1 for combo 2), so never put --color-text there. */
-  --color-on-primary: var(--cc-on-accent);
+  /* Text and icons on a primary fill: kaki stays mid-lightness, so dark ink always wins on it. */
+  --color-on-primary: var(--color-sumi-950);
 
-  /* Hover and press fills, under --color-on-primary. Both step AWAY from on-primary (toward its inverse), so they can only gain contrast: a fixed ramp step lightens a white-on-accent combo into failure (101 of 348 combos). */
-  --color-primary-hover: color-mix(
-    in srgb,
-    var(--cc-accent) 80%,
-    rgb(from var(--cc-on-accent) calc(255 - r) calc(255 - g) calc(255 - b))
-  );
-  --color-primary-active: color-mix(
-    in srgb,
-    var(--cc-accent) 65%,
-    rgb(from var(--cc-on-accent) calc(255 - r) calc(255 - g) calc(255 - b))
-  );
+  /* Hover and press fills, under --color-on-primary. Both lighten, away from the dark label, so they only gain contrast. */
+  --color-primary-hover: var(--color-kaki-400);
+  --color-primary-active: var(--color-kaki-300);
 
-  /* The primary button: the accent itself as the label, on the deepest tone of it, the same reading as an active navigation tab. Hover lifts the fill a step; press sinks it to near-black. The label clears 4.5:1 on every step for combo 2. */
-  --color-primary-surface: var(--cc-accent-900);
-  --color-primary-surface-hover: var(--cc-accent-800);
-  --color-primary-surface-active: var(--cc-accent-950);
-  --color-on-primary-surface: var(--cc-accent-text);
-  --color-on-primary-surface-hover: var(--cc-accent-text);
+  /* The primary button: the accent itself as the label, on the deepest tone of it, the same reading as an active navigation tab. Hover lifts the fill a step and the label with it; press sinks it to near-black. */
+  --color-primary-surface: var(--color-kaki-900);
+  --color-primary-surface-hover: var(--color-kaki-800);
+  --color-primary-surface-active: var(--color-kaki-950);
+  --color-on-primary-surface: var(--color-kaki-400);
+  --color-on-primary-surface-hover: var(--color-kaki-200);
 
-  /* secondary: the control fill (inputs, secondary buttons), drawn from the combo's second colour; hover lightens toward its anchor. */
-  --color-secondary: var(--cc-accent-2-900);
-  --color-secondary-muted: var(--cc-accent-2-800);
+  /* secondary: the fill of a secondary action (secondary buttons, a pressed toggle, the current page), drawn from seiji; hover lightens a step. Fields use the neutral depth roles instead. */
+  --color-secondary: var(--color-seiji-900);
+  --color-secondary-muted: var(--color-seiji-800);
 
   /* neutral */
-  --color-neutral-text: var(--cc-ink-muted);
+  --color-neutral-text: var(--color-sumi-300);
 
   /* danger */
   --color-danger-text: var(--color-red-300);
@@ -129,7 +125,7 @@
   --color-tag-brown: var(--color-brown-300);
   --color-tag-brown-text: var(--color-brown-100);
 
-  /* chart series, in order. Chart.js reads these off the canvas's element with getPropertyValue, so each must resolve to a plain colour it can parse: no light-dark(), no oklch(), no color-mix(). */
+  /* chart series, in order. Chart.js reads these off the canvas's element with getPropertyValue and hands them to the canvas, so each must resolve to a plain colour: no light-dark(), no color-mix(). */
   --color-chart-series-1: var(--color-blue-500);
   --color-chart-series-2: var(--color-green-400);
   --color-chart-series-3: var(--color-yellow-300);
@@ -137,10 +133,10 @@
   --color-chart-series-5: var(--color-purple-300);
 
   /* ghost */
-  --color-ghost-surface-subtle: color-mix(in srgb, var(--cc-accent) 8%, transparent);
+  --color-ghost-surface-subtle: color-mix(in srgb, var(--color-kaki-500) 8%, transparent);
 
   /* shadow */
-  --color-shadow: color-mix(in srgb, var(--cc-neutral-950) 80%, transparent);
+  --color-shadow: color-mix(in srgb, var(--color-sumi-950) 80%, transparent);
 
   /* ============================ TYPOGRAPHY =========================== */
 

@@ -98,13 +98,11 @@ inline editors, which are not form fields).
 <!-- consumer:start -->
 Two tiers in `src/styles/tokens/`, and components may only see one of them.
 
-- **primitive** (`primitives.css`, and the combo's `--cc-*`) — the raw palette,
-  `--color-blue-500`. Never referenced outside the semantic tier.
+- **primitive** (`primitives.css`) — the raw palette, all oklch,
+  `--color-kaki-500`. Never referenced outside the semantic tier.
 - **semantic** (`semantic.css`) — the design system's public API:
   `--color-primary-highlight`, `--color-text`, `--space-*`, `--radius-*`,
-  `--duration-*`. This file is the canonical token reference. Its colour
-  roles alias role-named `--cc-*` variables (`--cc-accent`, never a colour
-  name), so swapping the palette is the one combo import in `tokens.css`.
+  `--duration-*`. This file is the canonical token reference.
   Decorative colour gets roles too: `--color-tag-*` for tag hues,
   `--color-chart-series-*` for chart series.
 

@@ -28,7 +28,7 @@ import { TrustyFilterTag } from '@louislp/trusty-ui'
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
 | `label` | `string` | *required* | Chip text. Plain string only: keeps every tag on the design system. |
-| `color` | `"blue" \| "stone" \| "purple" \| "forest" \| "mint" \| "magenta" \| "brown"` | `"blue"` | Which of the seven hues to paint. Decorative — the app decides what a hue means. |
+| `color` | `"blue" \| "stone" \| "purple" \| "forest" \| "mint" \| "magenta" \| "brown"` | `"mint"` | Which of the seven hues to paint. Decorative — the app decides what a hue means. |
 | `disabled` | `boolean` | `false` |  |
 | `modelValue` | `boolean` | `false` | Whether the filter is on. |
 
@@ -38,7 +38,7 @@ import { TrustyFilterTag } from '@louislp/trusty-ui'
 
 ## Examples in Storybook
 
-- Default — Default — blue, off.
+- Default — Default — mint, off.
 - Selected — On: the ring, and `aria-pressed="true"`.
 - Disabled — Disabled keeps the resting hue and drops the label to muted — the colours carry the state.
 - Colors — All seven hues. They are decoration: nothing about a hue implies a meaning.

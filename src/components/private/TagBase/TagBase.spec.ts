@@ -10,9 +10,9 @@ describe('tagBase', () => {
     expect(button.text()).toContain('keyword')
   })
 
-  it('defaults to the blue hue', () => {
+  it('defaults to the mint hue', () => {
     const wrapper = mount(TagBase, { props: { label: 'keyword' } })
-    expect(wrapper.get('button').attributes('data-color')).toBe('blue')
+    expect(wrapper.get('button').attributes('data-color')).toBe('mint')
   })
 
   it('reflects the hue as data-color', () => {

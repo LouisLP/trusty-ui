@@ -143,7 +143,7 @@ export const markdownEditorTheme = EditorView.theme({
     borderInlineStart: 'var(--border-md) solid var(--color-border)',
   },
   '.cm-md-quote::before': {
-    backgroundColor: 'var(--color-secondary-muted)',
+    backgroundColor: 'var(--color-bg-inset-muted)',
   },
 
   // A fenced block is a full frame on the sunken surface, the one background darker than the field itself, which is what makes it read as inset.

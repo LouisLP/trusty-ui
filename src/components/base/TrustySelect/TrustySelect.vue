@@ -131,9 +131,9 @@ const selectedIcon = computed(() => props.items.find(item => item.value === mode
 .trusty-select-trigger {
   /* Per-variant channels; the state rules below read them, so a variant only repaints what differs. */
   --trusty-select-fg: var(--color-text-toned);
-  --trusty-select-bg: var(--color-secondary);
-  --trusty-select-bg-hover: var(--color-secondary);
-  --trusty-select-bg-disabled: var(--color-secondary-muted);
+  --trusty-select-bg: var(--color-bg-inset);
+  --trusty-select-bg-hover: var(--color-bg-inset);
+  --trusty-select-bg-disabled: var(--color-bg-inset-muted);
   --trusty-select-border: var(--color-border);
   --trusty-select-border-hover: var(--color-text-muted);
   --trusty-select-border-disabled: var(--color-border);

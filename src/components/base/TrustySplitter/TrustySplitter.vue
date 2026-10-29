@@ -98,7 +98,7 @@ const SplitterGroupRenderer = defineComponent({
   flex: none;
   align-items: center;
   justify-content: center;
-  background-color: var(--color-bg-lowered);
+  background-color: var(--color-border);
   transition: background-color var(--duration-fast) ease-out;
 }
 

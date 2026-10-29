@@ -10,10 +10,10 @@ describe('trustyFilterTag', () => {
     expect(button.text()).toContain('errors')
   })
 
-  it('defaults to a blue chip that is off', () => {
+  it('defaults to a mint chip that is off', () => {
     const wrapper = mount(TrustyFilterTag, { props: { label: 'errors' } })
     const button = wrapper.get('button')
-    expect(button.attributes('data-color')).toBe('blue')
+    expect(button.attributes('data-color')).toBe('mint')
     expect(button.attributes('aria-pressed')).toBe('false')
   })
 

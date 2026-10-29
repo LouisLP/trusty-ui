@@ -10,10 +10,10 @@ describe('trustyTag', () => {
     expect(button.text()).toContain('keyword')
   })
 
-  it('defaults to a blue remove tag', () => {
+  it('defaults to a mint remove tag', () => {
     const wrapper = mount(TrustyTag, { props: { label: 'keyword' } })
     const button = wrapper.get('button')
-    expect(button.attributes('data-color')).toBe('blue')
+    expect(button.attributes('data-color')).toBe('mint')
     expect(button.attributes('data-action')).toBe('remove')
   })
 

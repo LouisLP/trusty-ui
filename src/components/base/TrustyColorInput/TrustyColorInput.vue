@@ -117,7 +117,7 @@ export default { inheritAttrs: false }
   min-block-size: var(--size-control-md);
   padding-block: var(--space-xs);
   padding-inline: var(--space-sm);
-  background-color: var(--color-bg-lowered);
+  background-color: var(--color-bg-inset);
   border: var(--border-md) solid var(--color-border);
   border-radius: var(--radius-xs);
   transition: border-color var(--duration-fast) ease-out;
@@ -144,7 +144,7 @@ export default { inheritAttrs: false }
 
 .trusty-color-input[data-disabled] {
   cursor: not-allowed;
-  background-color: var(--color-secondary-muted);
+  background-color: var(--color-bg-inset-muted);
   border-color: var(--color-border);
 }
 

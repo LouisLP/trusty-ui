@@ -37,7 +37,7 @@ Each chip owns one boolean. A row of them is a plain \`v-for\` over the app's fa
   },
   args: {
     label: 'errors',
-    color: 'blue',
+    color: 'mint',
     modelValue: false,
     disabled: false,
   },
@@ -46,7 +46,7 @@ Each chip owns one boolean. A row of them is a plain \`v-for\` over the app's fa
 export default meta
 type Story = StoryObj<typeof meta>
 
-/** Default — blue, off. */
+/** Default — mint, off. */
 export const Default: Story = {}
 
 /** On: the ring, and `aria-pressed="true"`. */

@@ -76,7 +76,7 @@ const theme = EditorView.theme({
   '.cm-gutters': {
     color: 'var(--color-text-muted)',
 
-    backgroundColor: 'var(--color-secondary)',
+    backgroundColor: 'var(--color-bg-inset)',
     borderInlineEnd: 'var(--border-sm) solid var(--color-border)',
   },
   '.cm-lineNumbers .cm-gutterElement': {

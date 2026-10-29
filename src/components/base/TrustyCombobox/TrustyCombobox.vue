@@ -151,7 +151,7 @@ const hasText = computed(() =>
   inline-size: 100%;
   min-block-size: var(--size-control-md);
   padding-inline: var(--space-sm);
-  background-color: var(--color-secondary);
+  background-color: var(--color-bg-inset);
   border: var(--border-md) solid var(--color-border);
   border-radius: var(--radius-xs);
   transition: border-color var(--duration-fast) ease-out;
@@ -173,7 +173,7 @@ const hasText = computed(() =>
 
 .trusty-combobox-anchor:has(.trusty-combobox-input:disabled) {
   cursor: not-allowed;
-  background-color: var(--color-secondary-muted);
+  background-color: var(--color-bg-inset-muted);
   border-color: var(--color-border);
 }
 

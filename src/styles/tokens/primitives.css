@@ -1,70 +1,105 @@
-/* Trusty UI primitive tokens: the raw colours the combo cannot supply.
+/* Trusty UI primitive tokens: the raw palette, as literal values with no role attached.
 
-   Surfaces, text, borders, primary and secondary come from japanese-colour-combos (--cc-*, imported in tokens.css). What stays here is what a two-colour combo has no answer for: the status hues, the tag hues and white.
+   Components must NEVER reference these directly — alias them behind a role-based token in semantic.css and use that instead. token-tiers.spec.ts enforces this.
 
-   These are literal values with no role attached. Components must NEVER reference them directly — alias them behind a role-based token in semantic.css and use that instead. token-tiers.spec.ts enforces this.
+   sumi, kaki and seiji are the theme, vendored from the kaki project (joshiki-maku curtain dyes): sumi the ink neutrals, kaki the persimmon orange (primary), seiji the pine green (secondary). 500 is the value sampled from the curtain for kaki and seiji. sumi-850 is ours: the five-surface ladder needs a step between 800 and 900.
 
-   Every ramp is built in oklch on the combo's own grid, so a status hue sits at the same lightness as the --cc-* step of the same number:
-     L  50 99.3%  100 93.8%  200 83.5%  300 73.5%  400 64.5%  500 56.3%  600 48.5%  700 40.7%  800 32.5%  900 21.8%  950 9.9%
-     C  peak × the accent's own profile (300 = 1, tapering to 0.02 at 50 and 0.14 at 950), clipped to the sRGB gamut
-   Only the hue and the peak chroma are chosen per ramp, and they are noted beside its name. The values are written out as hex because Chart.js reads the series colours, and neither it nor withAlpha() parses oklch().
-
-   The ramps are fixed rather than derived from --cc-*: a status hue means what it means whatever the combo, and the dark surfaces every combo ships sit close enough that one set passes AA on all 348 (danger text on surface-muted is the tightest, 5.75:1). There is no orange: orange is the combo's accent, and warning is yellow so it cannot be mistaken for it.
+   The status and tag hues sit on their own fixed ramps, all oklch. There is no orange: orange is the primary, and warning is yellow so it cannot be mistaken for it.
 
    Loaded via the token barrel (tokens.css) → styles/main.css. */
 
 :root {
-  /* blue: h 250, C 0.15 — bluer and brighter than Dark Tyrian Blue (h 243, C 0.06), so info never reads as a secondary control */
-  --color-blue-50: #fbfdff;
-  --color-blue-100: #dcedff;
-  --color-blue-200: #9fcefe;
-  --color-blue-300: #5eaefd;
-  --color-blue-400: #4792da;
-  --color-blue-500: #3b79b5;
-  --color-blue-600: #2e6295;
-  --color-blue-700: #224c74;
-  --color-blue-800: #173654;
-  --color-blue-900: #091b2d;
-  --color-blue-950: #010309;
+  /* sumi: ink / near-black, faint cool bias */
+  --color-sumi-50: oklch(97% 0.004 250);
+  --color-sumi-100: oklch(93% 0.006 250);
+  --color-sumi-200: oklch(85% 0.01 250);
+  --color-sumi-300: oklch(74% 0.014 250);
+  --color-sumi-400: oklch(62% 0.018 250);
+  --color-sumi-500: oklch(50% 0.022 250);
+  --color-sumi-600: oklch(40% 0.022 250);
+  --color-sumi-700: oklch(30% 0.02 250);
+  --color-sumi-800: oklch(22% 0.016 250);
+  --color-sumi-850: oklch(19% 0.015 250);
+  --color-sumi-900: oklch(16% 0.013 250);
+  --color-sumi-950: oklch(12% 0.01 250);
+
+  /* kaki: persimmon orange */
+  --color-kaki-50: oklch(97% 0.018 50);
+  --color-kaki-100: oklch(93% 0.038 50);
+  --color-kaki-200: oklch(87% 0.068 49);
+  --color-kaki-300: oklch(80% 0.098 47);
+  --color-kaki-400: oklch(74% 0.128 46);
+  --color-kaki-500: oklch(72% 0.15 45);
+  --color-kaki-600: oklch(64% 0.158 41);
+  --color-kaki-700: oklch(54% 0.148 36);
+  --color-kaki-800: oklch(44% 0.126 32);
+  --color-kaki-900: oklch(34% 0.098 30);
+  --color-kaki-950: oklch(24% 0.068 28);
+
+  /* seiji: pine green */
+  --color-seiji-50: oklch(96% 0.02 165);
+  --color-seiji-100: oklch(90% 0.036 165);
+  --color-seiji-200: oklch(82% 0.056 165);
+  --color-seiji-300: oklch(73% 0.076 165);
+  --color-seiji-400: oklch(63% 0.09 165);
+  --color-seiji-500: oklch(55% 0.096 165);
+  --color-seiji-600: oklch(47% 0.09 165);
+  --color-seiji-700: oklch(39% 0.08 165);
+  --color-seiji-800: oklch(31% 0.064 165);
+  --color-seiji-900: oklch(23% 0.045 165);
+  --color-seiji-950: oklch(16% 0.03 165);
+
+  /* blue: h 250, C 0.15 */
+  --color-blue-50: oklch(99.3% 0.003 248);
+  --color-blue-100: oklch(93.9% 0.03 250);
+  --color-blue-200: oklch(83.5% 0.084 249);
+  --color-blue-300: oklch(73.4% 0.14 250);
+  --color-blue-400: oklch(64.5% 0.132 250);
+  --color-blue-500: oklch(56.3% 0.113 250);
+  --color-blue-600: oklch(48.5% 0.099 250);
+  --color-blue-700: oklch(40.7% 0.082 250);
+  --color-blue-800: oklch(32.5% 0.065 250);
+  --color-blue-900: oklch(21.7% 0.043 250);
+  --color-blue-950: oklch(9.7% 0.022 259);
 
   /* red: h 25, C 0.17 */
-  --color-red-50: #fffcfb;
-  --color-red-100: #ffe3e0;
-  --color-red-200: #feb3ac;
-  --color-red-300: #fe7c75;
-  --color-red-400: #da645e;
-  --color-red-500: #b5524d;
-  --color-red-600: #94423e;
-  --color-red-700: #74322f;
-  --color-red-800: #542220;
-  --color-red-900: #2d100e;
-  --color-red-950: #090101;
+  --color-red-50: oklch(99.3% 0.003 39);
+  --color-red-100: oklch(93.8% 0.031 25);
+  --color-red-200: oklch(83.6% 0.089 25);
+  --color-red-300: oklch(73.5% 0.16 25);
+  --color-red-400: oklch(64.6% 0.15 25);
+  --color-red-500: oklch(56.3% 0.13 25);
+  --color-red-600: oklch(48.5% 0.112 25);
+  --color-red-700: oklch(40.7% 0.094 25);
+  --color-red-800: oklch(32.4% 0.075 24);
+  --color-red-900: oklch(21.8% 0.048 26);
+  --color-red-950: oklch(9.7% 0.028 24);
 
   /* green: h 150, C 0.15 */
-  --color-green-50: #fbfdfb;
-  --color-green-100: #d9f2dd;
-  --color-green-200: #93dea2;
-  --color-green-300: #58c375;
-  --color-green-400: #49a461;
-  --color-green-500: #3c8850;
-  --color-green-600: #2f6e40;
-  --color-green-700: #235631;
-  --color-green-800: #173d21;
-  --color-green-900: #09200f;
-  --color-green-950: #010401;
+  --color-green-50: oklch(99.2% 0.003 146);
+  --color-green-100: oklch(93.7% 0.038 150);
+  --color-green-200: oklch(83.6% 0.112 150);
+  --color-green-300: oklch(73.5% 0.15 150);
+  --color-green-400: oklch(64.6% 0.132 150);
+  --color-green-500: oklch(56.4% 0.115 150);
+  --color-green-600: oklch(48.4% 0.098 150);
+  --color-green-700: oklch(40.8% 0.083 150);
+  --color-green-800: oklch(32.4% 0.066 150);
+  --color-green-900: oklch(21.9% 0.044 150);
+  --color-green-950: oklch(9.6% 0.02 144);
 
-  /* yellow: h 100, C 0.15 — 33° clear of the accent (h 67) */
-  --color-yellow-50: #fdfdfa;
-  --color-yellow-100: #f0ecce;
-  --color-yellow-200: #dacb72;
-  --color-yellow-300: #c0aa11;
-  --color-yellow-400: #a18e0c;
-  --color-yellow-500: #85760b;
-  --color-yellow-600: #6c6005;
-  --color-yellow-700: #544a04;
-  --color-yellow-800: #3c3402;
-  --color-yellow-900: #1f1a01;
-  --color-yellow-950: #040300;
+  /* yellow: h 100, C 0.15 — 55° clear of kaki (h 45) */
+  --color-yellow-50: oklch(99.3% 0.004 106);
+  --color-yellow-100: oklch(93.8% 0.04 101);
+  --color-yellow-200: oklch(83.6% 0.112 100);
+  --color-yellow-300: oklch(73.5% 0.15 100);
+  --color-yellow-400: oklch(64.4% 0.131 100);
+  --color-yellow-500: oklch(56.3% 0.114 100);
+  --color-yellow-600: oklch(48.6% 0.099 101);
+  --color-yellow-700: oklch(40.7% 0.082 100);
+  --color-yellow-800: oklch(32.4% 0.066 100);
+  --color-yellow-900: oklch(21.7% 0.043 99);
+  --color-yellow-950: oklch(9.7% 0.02 99);
 
   /* ─── extended palette ───
      Tag hues, for telling one tag from another at a glance. Decorative, not
@@ -72,31 +107,31 @@
      design uses are here; text is 100 (stone 200), the hue 300. */
 
   /* stone: h 30, C 0.014 */
-  --color-stone-200: #d0c7c5;
-  --color-stone-300: #b2a6a4;
+  --color-stone-200: oklch(83.6% 0.01 33);
+  --color-stone-300: oklch(73.5% 0.014 29);
 
   /* purple: h 300, C 0.14 */
-  --color-purple-100: #eee6ff;
-  --color-purple-300: #b794f4;
+  --color-purple-100: oklch(93.9% 0.034 300);
+  --color-purple-300: oklch(73.6% 0.139 300);
 
   /* forest: h 125, C 0.11 */
-  --color-forest-100: #e6eeda;
-  --color-forest-300: #99b566;
+  --color-forest-100: oklch(93.8% 0.028 125);
+  --color-forest-300: oklch(73.4% 0.11 125);
 
   /* mint: h 180, C 0.09 */
-  --color-mint-100: #dbf0eb;
-  --color-mint-300: #63bcab;
-  --color-mint-600: #356a60;
+  --color-mint-100: oklch(93.8% 0.023 180);
+  --color-mint-300: oklch(73.5% 0.09 180);
+  --color-mint-600: oklch(48.5% 0.059 180);
 
   /* magenta: h 340, C 0.15 — 400 is the selected-tag ring; the one hue whose ring is not its own mid step. */
-  --color-magenta-100: #fee1f3;
-  --color-magenta-300: #e681c7;
-  --color-magenta-400: #c26ba7;
+  --color-magenta-100: oklch(93.9% 0.039 340);
+  --color-magenta-300: oklch(73.5% 0.15 340);
+  --color-magenta-400: oklch(64.5% 0.133 340);
 
   /* brown: h 50, C 0.07 */
-  --color-brown-100: #f5e7e0;
-  --color-brown-300: #ce9d82;
+  --color-brown-100: oklch(93.7% 0.018 49);
+  --color-brown-300: oklch(73.5% 0.07 50);
 
   /* white */
-  --color-white: #fff;
+  --color-white: oklch(100% 0 0);
 }

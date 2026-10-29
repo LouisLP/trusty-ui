@@ -22,7 +22,7 @@ const LANGUAGE_LOADERS = {
 /** Languages the code components can label and highlight. */
 export type TrustyCodeLanguage = keyof typeof LANGUAGE_LOADERS
 
-// Ayu Mirage: orange and amber keywords that echo the accent, and every token colour but comments clears 4.5:1 on the Dark Tyrian Blue code surface.
+// Ayu Mirage: orange and amber keywords that echo the accent, and every token colour but comments clears 4.5:1 on the sumi inset the code sits on.
 const THEME = ayuMirage.name ?? 'ayu-mirage'
 
 let highlighterPromise: Promise<HighlighterCore> | undefined

@@ -9,14 +9,14 @@ import '../src/styles/main.css'
 // Storybook chrome tinted to match the design tokens.
 const trustyDark = {
   ...themes.dark,
-  appBg: '#0f1214', // --color-bg-lowered (combo 2 canvas)
-  appContentBg: '#0f1214', // --color-bg-lowered
-  appPreviewBg: '#0f1214', // --color-bg-lowered
-  appBorderColor: '#323c44', // --color-border
-  barBg: '#191c1f', // --color-bg
-  colorSecondary: '#f99d1b', // --color-primary
-  textColor: '#e6ecf1', // --color-text
-  textMutedColor: '#a5aaae', // --color-text-muted
+  appBg: '#090e13', // --color-bg-lowered (sumi-900)
+  appContentBg: '#090e13', // --color-bg-lowered
+  appPreviewBg: '#090e13', // --color-bg-lowered
+  appBorderColor: '#262f38', // --color-border
+  barBg: '#0f141a', // --color-bg
+  colorSecondary: '#f0834e', // --color-primary
+  textColor: '#f3f5f8', // --color-text
+  textMutedColor: '#a4acb4', // --color-text-muted
   brandTitle: 'Trusty UI',
 }
 
